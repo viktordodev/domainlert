@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Logo } from "../components/Logo";
 import styles from "./auth.module.css";
 
 type AuthFormProps = {
@@ -14,7 +15,9 @@ export function AuthForm({ action, mode, error, message }: AuthFormProps) {
   return (
     <main className={styles.shell}>
       <div className={styles.panel}>
-        <Link className={styles.back} href="/">DomainLert</Link>
+        <Link className={styles.back} href="/" aria-label="DomainLert home">
+          <Logo />
+        </Link>
         <p className={styles.kicker}>{isLogin ? "Welcome back" : "Start monitoring"}</p>
         <h1>{isLogin ? "Keep watch." : "Make renewals boring."}</h1>
         <p className={styles.intro}>
