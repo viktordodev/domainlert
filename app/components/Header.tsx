@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { cookies } from "next/headers";
 import { createClient } from "@/utils/supabase/server";
+import { signOut } from "../(auth)/actions";
 import { Logo } from "./Logo";
 import styles from "./Header.module.css";
 
@@ -40,8 +41,19 @@ export async function Header() {
         <Link href="#pricing">Pricing</Link>
       </nav>
       <div className={styles.actions}>
-        <Link className={styles.login} href={accountHref}>{accountLabel}</Link>
-        <Link className={styles.cta} href={user ? "/dashboard" : "/signup"}>{ctaLabel} <span aria-hidden="true">↗</span></Link>
+        {user ? <details className={styles.accountMenu}>
+          <summary aria-label="Open account menu" title="Account menu">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.5" /><path d="M5.5 20c.8-3.5 3-5.5 6.5-5.5s5.7 2 6.5 5.5" /></svg>
+          </summary>
+          <div className={styles.accountDropdown}>
+            <span>{user.email}</span>
+            <Link href="/dashboard">Dashboard <b aria-hidden="true">↗</b></Link>
+            <form action={signOut}><button type="submit">Log out <b aria-hidden="true">↗</b></button></form>
+          </div>
+        </details> : <>
+          <Link className={styles.login} href={accountHref}>{accountLabel}</Link>
+          <Link className={styles.cta} href="/signup">{ctaLabel} <span aria-hidden="true">↗</span></Link>
+        </>}
       </div>
       <details className={styles.mobileMenu}>
         <summary aria-label="Open navigation"><span></span><span></span></summary>
@@ -50,7 +62,8 @@ export async function Header() {
           <Link href="#solutions">Solutions</Link>
           <Link href="#resources">Resources</Link>
           <Link href="#pricing">Pricing</Link>
-          <Link href={accountHref}>{accountLabel}</Link>
+          <Link href={accountHref}>{user ? "Dashboard" : accountLabel}</Link>
+          {user && <form action={signOut}><button type="submit">Log out</button></form>}
         </nav>
       </details>
     </header>
