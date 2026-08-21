@@ -2,6 +2,7 @@ import Link from "next/link";
 import { cookies } from "next/headers";
 import { createClient } from "@/utils/supabase/server";
 import { signOut } from "../(auth)/actions";
+import { ClickOutsideDetails } from "./ClickOutsideDetails";
 import { Logo } from "./Logo";
 import styles from "./Header.module.css";
 
@@ -23,7 +24,7 @@ export async function Header() {
       <Link className={styles.wordmark} href="/" aria-label="DomainLert home">
         <Logo animated />
       </Link>
-      <details className={styles.tools}>
+      <ClickOutsideDetails className={styles.tools}>
         <summary>Tools <span aria-hidden="true">+</span></summary>
         <div className={styles.toolMenu}>
           {products.map((product) => (
@@ -33,7 +34,7 @@ export async function Header() {
             </Link>
           ))}
         </div>
-      </details>
+      </ClickOutsideDetails>
       <nav className={styles.nav} aria-label="Main navigation">
         <Link href="#product">Product</Link>
         <Link href="#solutions">Solutions</Link>
@@ -41,7 +42,7 @@ export async function Header() {
         <Link href="#pricing">Pricing</Link>
       </nav>
       <div className={styles.actions}>
-        {user ? <details className={styles.accountMenu}>
+        {user ? <ClickOutsideDetails className={styles.accountMenu}>
           <summary aria-label="Open account menu" title="Account menu">
             <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.5" /><path d="M5.5 20c.8-3.5 3-5.5 6.5-5.5s5.7 2 6.5 5.5" /></svg>
           </summary>
@@ -50,7 +51,7 @@ export async function Header() {
             <Link href="/dashboard">Dashboard <b aria-hidden="true">↗</b></Link>
             <form action={signOut}><button type="submit">Log out <b aria-hidden="true">↗</b></button></form>
           </div>
-        </details> : <>
+        </ClickOutsideDetails> : <>
           <Link className={styles.login} href={accountHref}>{accountLabel}</Link>
           <Link className={styles.cta} href="/signup">{ctaLabel} <span aria-hidden="true">↗</span></Link>
         </>}

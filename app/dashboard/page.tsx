@@ -31,37 +31,29 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
   return (
     <main className={styles.page}>
       <Header />
-      <section className={styles.dashboardHero}>
-        <div className={styles.heroCopy}>
-          <p className={styles.eyebrow}><span className={styles.liveDot}></span> Dashboard / {user.email}</p>
-          <h1>Keep watch.<br /><em>Stay ahead.</em></h1>
-          <p className={styles.heroText}>Your domain portfolio, in one calm place. Import the list and we will keep the dates that matter visible.</p>
+      <section className={styles.workspace}>
+        <div className={styles.workspaceHeading}>
+          <div><p className={styles.eyebrow}><span className={styles.liveDot}></span> Domain monitoring</p><h1>Your portfolio</h1></div>
+          <p>{user.email}</p>
         </div>
-        <div className={styles.portfolioVisual}>
-          <div className={styles.visualLabel}>Portfolio / {domainCount} domains <span>● LIVE</span></div>
-          <div className={styles.dashboardCard}>
-            <div className={styles.cardTop}><strong>Good morning</strong><span>{new Date().toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" }).toUpperCase()}</span></div>
-            <div className={styles.health}><div><strong>{healthyCount}</strong><span>domains healthy</span></div><div className={styles.healthRing}>{healthPercent}%</div></div>
-            <div className={styles.cardRows}>
-              {domains?.slice(0, 3).map((domain) => <div className={styles.cardRow} key={domain.id}><span className={domain.status === "expiring_soon" ? styles.statusWarn : styles.statusGood}></span><strong>{domain.domain_name}</strong><span>{domain.expiry_date ?? "pending"}</span></div>)}
-              {!domainCount && <div className={styles.cardEmpty}>Your first domains will appear here.</div>}
-            </div>
-            <div className={styles.cardFooter}>{warningCount ? `${warningCount} domain${warningCount === 1 ? "" : "s"} need attention` : "All checks look clear"}<span>View portfolio ↓</span></div>
+        <div className={styles.visualLabel}>Portfolio / {domainCount} domains <span>● LIVE</span></div>
+        <section className={styles.dashboardCard} aria-label="Domain portfolio">
+          <div className={styles.cardTop}><strong>Good morning</strong><span>{new Date().toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" }).toUpperCase()}</span></div>
+          <div className={styles.health}><div><strong>{healthyCount}</strong><span>domains healthy</span></div><div className={styles.healthRing}>{healthPercent}%</div></div>
+          <div className={styles.cardRows}>
+            {domains?.length ? domains.map((domain) => <div className={`${styles.cardRow} ${domain.status === "expiring_soon" ? styles.warning : ""}`} key={domain.id}><span className={domain.status === "expiring_soon" ? styles.statusWarn : styles.statusGood}></span><strong>{domain.domain_name}</strong><span>{domain.expiry_date ?? "Expiry check pending"}</span><small>{domain.status.replace("_", " ")}</small></div>) : <div className={styles.cardEmpty}>Your first domains will appear here.</div>}
           </div>
-        </div>
+          <div className={styles.cardFooter}>{warningCount ? `${warningCount} domain${warningCount === 1 ? "" : "s"} need attention` : "All checks look clear"}<span>{domainCount} tracked</span></div>
+        </section>
       </section>
       <section className={styles.importSection}>
-        <div><p className={styles.kicker}>Portfolio / {domainCount} domains</p><h2>Bring your list.</h2><p>Paste domains separated by commas, spaces, or new lines. We will remove duplicates and keep your list private.</p></div>
+        <div><p className={styles.kicker}>Add to your portfolio</p><h2>Bring your list.</h2><p>Paste domains separated by commas, spaces, or new lines. We will remove duplicates and keep your list private.</p></div>
         <form action={importDomains} className={styles.importForm}>
           <label htmlFor="domains">Domain list</label>
           <textarea id="domains" name="domains" placeholder="northstar.studio\nacme-services.com\nfieldnotes.io" required />
           <button type="submit">Import domains <span aria-hidden="true">↗</span></button>
         </form>
         {params.import && <p className={styles.notice} role="status">{params.import}</p>}
-      </section>
-      <section className={styles.listSection}>
-        <div className={styles.listHeader}><div><p className={styles.kicker}>Your watchlist</p><h2>Domain list</h2></div><span>Limit: 1,000</span></div>
-        {domains?.length ? <div className={styles.domainList}>{domains.map((domain) => <div className={styles.domainRow} key={domain.id}><strong>{domain.domain_name}</strong><span>{domain.status.replace("_", " ")}</span><small>{domain.expiry_date ?? "Expiry check pending"}</small></div>)}</div> : <p className={styles.empty}>Your imported domains will appear here.</p>}
       </section>
       <form action={signOut} className={styles.signOut}><button type="submit">Log out</button></form>
     </main>
