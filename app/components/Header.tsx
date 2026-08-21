@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Logo } from "./Logo";
 import styles from "./Header.module.css";
 
 const products = [
@@ -11,8 +12,7 @@ export function Header() {
   return (
     <header className={styles.header}>
       <Link className={styles.wordmark} href="/" aria-label="DomainLert home">
-        <span className={styles.mark}>D</span>
-        <span>DomainLert</span>
+        <Logo animated />
       </Link>
       <details className={styles.tools}>
         <summary>Tools <span aria-hidden="true">+</span></summary>

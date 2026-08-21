@@ -280,7 +280,6 @@
   line-height: 1.65;
 }
 .darkSection {
-  max-width: none;
   padding-top: 125px;
   padding-bottom: 130px;
   display: grid;
@@ -419,7 +418,7 @@
 }
 .finalCta {
   padding: 115px 32px 130px;
-  background: var(--teal);
+  background: var(--cream);
   text-align: center;
 }
 .finalCta .kicker {

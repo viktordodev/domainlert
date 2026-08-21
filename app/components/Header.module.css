@@ -1,6 +1,5 @@
 .header { max-width: 1240px; margin: 0 auto; padding: 24px 32px; display: flex; align-items: center; gap: 24px; position: relative; z-index: 2; }
-.wordmark { display: flex; align-items: center; gap: 9px; font-size: 15px; font-weight: 800; letter-spacing: -0.04em; }
-.mark { display: grid; place-items: center; width: 27px; height: 27px; background: var(--teal); color: var(--ink); border-radius: 50%; font-family: var(--font-playfair); font-size: 17px; font-style: italic; }
+.wordmark { color: inherit; }
 .tools { position: relative; }
 .tools summary { list-style: none; cursor: pointer; font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.11em; }
 .tools summary::-webkit-details-marker { display: none; }

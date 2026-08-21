@@ -1,6 +1,5 @@
 .footer { max-width: 1240px; margin: 0 auto; padding: 70px 32px 35px; display: grid; grid-template-columns: 1.5fr 1fr auto; align-items: end; gap: 30px; border-top: 1px solid var(--line); }
-.wordmark { display: flex; align-items: center; gap: 9px; font-size: 15px; font-weight: 800; letter-spacing: -0.04em; }
-.mark { display: inline-grid; place-items: center; width: 27px; height: 27px; background: var(--teal); color: var(--ink); border-radius: 50%; font-family: var(--font-playfair); font-style: italic; }
+.wordmark { color: inherit; }
 .footer p { margin-top: 18px; color: var(--muted); font-size: 12px; }
 .links { display: flex; gap: 20px; font-size: 12px; font-weight: 700; }
 .links a:hover { color: var(--rust); }

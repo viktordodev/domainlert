@@ -1,0 +1,18 @@
+.logo { display: inline-flex; align-items: center; gap: 10px; color: inherit; font-size: 15px; font-weight: 800; letter-spacing: -0.04em; }
+.mark { width: 32px; height: 32px; flex: 0 0 auto; overflow: visible; }
+.tile { fill: var(--ink); }
+.lens { fill: var(--teal); stroke: var(--paper); stroke-width: 1.5; }
+.glass { fill: none; stroke: var(--paper); stroke-linecap: round; stroke-width: 3.5; }
+.reflection { fill: none; stroke: var(--ink); stroke-linecap: round; stroke-width: 1.5; transform-origin: center; }
+.animated .reflection { animation: lensGlint 1s ease-in-out infinite; }
+.alert { fill: var(--rust); stroke: var(--ink); stroke-width: 1.5; }
+.nameAccent { color: var(--rust); }
+
+@keyframes lensGlint {
+	0%, 100% { opacity: 0.35; transform: translate(-1px, 1px); }
+	50% { opacity: 1; transform: translate(1px, -1px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.animated .reflection { animation: none; }
+}
