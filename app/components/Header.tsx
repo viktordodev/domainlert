@@ -32,8 +32,8 @@ export function Header() {
         <Link href="#pricing">Pricing</Link>
       </nav>
       <div className={styles.actions}>
-        <Link className={styles.login} href="#login">Log in</Link>
-        <Link className={styles.cta} href="#start">Start monitoring <span aria-hidden="true">↗</span></Link>
+        <Link className={styles.login} href="/login">Log in</Link>
+        <Link className={styles.cta} href="/signup">Start monitoring <span aria-hidden="true">↗</span></Link>
       </div>
       <details className={styles.mobileMenu}>
         <summary aria-label="Open navigation"><span></span><span></span></summary>
@@ -42,7 +42,7 @@ export function Header() {
           <Link href="#solutions">Solutions</Link>
           <Link href="#resources">Resources</Link>
           <Link href="#pricing">Pricing</Link>
-          <Link href="#login">Log in</Link>
+          <Link href="/login">Log in</Link>
         </nav>
       </details>
     </header>

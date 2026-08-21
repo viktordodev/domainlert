@@ -2,7 +2,17 @@ import { type NextRequest } from "next/server";
 import { createClient } from "@/utils/supabase/middleware";
 
 export async function middleware(request: NextRequest) {
-  return await createClient(request);
+  const { supabase, supabaseResponse } = createClient(request);
+  const { data: { user } } = await supabase.auth.getUser();
+
+  if (!user && request.nextUrl.pathname.startsWith("/dashboard")) {
+    const loginUrl = request.nextUrl.clone();
+    loginUrl.pathname = "/login";
+    loginUrl.searchParams.set("next", request.nextUrl.pathname);
+    return Response.redirect(loginUrl);
+  }
+
+  return supabaseResponse;
 }
 
 export const config = {
