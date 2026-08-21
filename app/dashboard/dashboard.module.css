@@ -1,0 +1,26 @@
+.page { min-height: 100vh; padding: 40px clamp(24px, 7vw, 100px); color: var(--ink); font-family: var(--font-manrope), sans-serif; background: var(--paper); }
+.page > a { display: inline-block; }
+.page > p { color: var(--rust); font-family: var(--font-dm-mono), monospace; font-size: 11px; letter-spacing: .13em; text-transform: uppercase; }
+.page h1 { margin-top: 14px; font-size: clamp(42px, 6vw, 80px); line-height: .98; letter-spacing: -.04em; }
+.page > a + p { margin-top: 34px; }
+.importSection { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(28px, 7vw, 100px); margin-top: 70px; padding: 42px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.kicker { color: var(--rust); font-family: var(--font-dm-mono), monospace; font-size: 11px; letter-spacing: .13em; text-transform: uppercase; }
+.importSection h2, .listSection h2 { margin-top: 12px; font-size: clamp(28px, 4vw, 48px); letter-spacing: -.04em; }
+.importSection p:not(.kicker) { max-width: 350px; margin-top: 16px; color: var(--muted); line-height: 1.6; }
+.importForm { display: grid; gap: 10px; }
+.importForm label { font-size: 12px; font-weight: 800; }
+.importForm textarea { min-height: 150px; padding: 14px; resize: vertical; border: 1px solid var(--line); background: white; color: var(--ink); font: 14px var(--font-dm-mono), monospace; }
+.importForm button, .signOut button { padding: 14px 16px; border: 0; background: var(--ink); color: var(--paper); cursor: pointer; font: inherit; font-size: 12px; font-weight: 800; text-align: left; }
+.importForm button span { float: right; color: var(--teal); }
+.notice { grid-column: 2; margin-top: -16px; padding: 12px 14px; background: var(--teal-pale); color: var(--teal-dark); font-size: 12px; }
+.listSection { margin-top: 56px; }
+.listHeader { display: flex; align-items: baseline; justify-content: space-between; gap: 20px; }
+.listHeader span { color: var(--muted); font: 11px var(--font-dm-mono), monospace; text-transform: uppercase; }
+.domainList { margin-top: 20px; border-top: 1px solid var(--line); }
+.domainRow { display: grid; grid-template-columns: 1fr 140px 180px; gap: 20px; padding: 18px 0; border-bottom: 1px solid var(--line); }
+.domainRow span, .domainRow small, .empty { color: var(--muted); font-size: 12px; }
+.domainRow span { text-transform: capitalize; }
+.empty { margin-top: 20px; }
+.signOut { margin-top: 42px; }
+.signOut button { border: 1px solid var(--line); background: transparent; color: var(--ink); }
+@media (max-width: 700px) { .page { padding-top: 24px; } .importSection { display: block; margin-top: 48px; } .importForm { margin-top: 32px; } .notice { margin-top: 18px; } .domainRow { grid-template-columns: 1fr auto; gap: 6px 16px; } .domainRow small { grid-column: 1 / -1; } }

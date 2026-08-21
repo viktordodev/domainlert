@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { cookies } from "next/headers";
+import { createClient } from "@/utils/supabase/server";
 import { Logo } from "./Logo";
 import styles from "./Header.module.css";
 
@@ -8,7 +10,13 @@ const products = [
   { name: "SSL monitor", description: "Coming soon", href: "#" },
 ];
 
-export function Header() {
+export async function Header() {
+  const supabase = createClient(await cookies());
+  const { data: { user } } = await supabase.auth.getUser();
+  const accountHref = user ? "/dashboard" : "/login";
+  const accountLabel = user ? "Dashboard" : "Log in";
+  const ctaLabel = user ? "Open dashboard" : "Start monitoring";
+
   return (
     <header className={styles.header}>
       <Link className={styles.wordmark} href="/" aria-label="DomainLert home">
@@ -32,8 +40,8 @@ export function Header() {
         <Link href="#pricing">Pricing</Link>
       </nav>
       <div className={styles.actions}>
-        <Link className={styles.login} href="/login">Log in</Link>
-        <Link className={styles.cta} href="/signup">Start monitoring <span aria-hidden="true">↗</span></Link>
+        <Link className={styles.login} href={accountHref}>{accountLabel}</Link>
+        <Link className={styles.cta} href={user ? "/dashboard" : "/signup"}>{ctaLabel} <span aria-hidden="true">↗</span></Link>
       </div>
       <details className={styles.mobileMenu}>
         <summary aria-label="Open navigation"><span></span><span></span></summary>
@@ -42,7 +50,7 @@ export function Header() {
           <Link href="#solutions">Solutions</Link>
           <Link href="#resources">Resources</Link>
           <Link href="#pricing">Pricing</Link>
-          <Link href="/login">Log in</Link>
+          <Link href={accountHref}>{accountLabel}</Link>
         </nav>
       </details>
     </header>
