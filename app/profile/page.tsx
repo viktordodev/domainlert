@@ -3,7 +3,8 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { createClient } from "@/utils/supabase/server";
 import { Header } from "../components/Header";
-import { updateEmail, updatePassword, updateProfile } from "./actions";
+import { DEFAULT_ALERT_THRESHOLDS } from "@/utils/alert-thresholds";
+import { updateAlertThresholds, updateEmail, updatePassword, updateProfile } from "./actions";
 import styles from "./profile.module.css";
 
 type ProfilePageProps = {
@@ -24,6 +25,9 @@ export default async function ProfilePage({ searchParams }: ProfilePageProps) {
   const agencyName = typeof user.user_metadata.agency_name === "string" ? user.user_metadata.agency_name : "";
   const phone = typeof user.user_metadata.phone === "string" ? user.user_metadata.phone : "";
   const website = typeof user.user_metadata.website === "string" ? user.user_metadata.website : "";
+  const alertThresholds = Array.isArray(user.user_metadata.alert_thresholds) && user.user_metadata.alert_thresholds.length > 0
+    ? user.user_metadata.alert_thresholds
+    : DEFAULT_ALERT_THRESHOLDS;
 
   return (
     <main className={styles.page}>
@@ -88,6 +92,19 @@ export default async function ProfilePage({ searchParams }: ProfilePageProps) {
               <label htmlFor="passwordConfirmation">Confirm new password</label>
               <input id="passwordConfirmation" name="passwordConfirmation" type="password" minLength={8} autoComplete="new-password" required />
               <button type="submit">Change password <span aria-hidden="true">↗</span></button>
+            </form>
+          </section>
+
+          <section className={styles.setting} aria-labelledby="alert-thresholds">
+            <div className={styles.settingIntro}>
+              <p className={styles.sectionNumber}>04</p>
+              <h2 id="alert-thresholds">Expiry alerts</h2>
+              <p>Choose how many days before expiry we should email you. Separate values with commas.</p>
+            </div>
+            <form action={updateAlertThresholds} className={styles.form}>
+              <label htmlFor="alertThresholds">Alert days before expiry</label>
+              <input id="alertThresholds" name="alertThresholds" type="text" defaultValue={alertThresholds.join(", ")} placeholder="30, 14, 7" required />
+              <button type="submit">Save thresholds <span aria-hidden="true">↗</span></button>
             </form>
           </section>
         </div>

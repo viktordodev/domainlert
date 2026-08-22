@@ -82,7 +82,7 @@ The first tool is DomainLert, but the navigation should anticipate a broader mon
 - [ ] Bulk domain import (CSV upload or paste list)
 - [ ] Daily automated expiry check (cron job — RDAP lookup per domain, fallback API on failure)
 - [ ] Dashboard: domain list with expiry date, days remaining, status, last-checked timestamp
-- [ ] Email alerts before expiry (e.g. 90/60/30/14/7 days out — avoid duplicate sends per threshold)
+- [x] Email alerts before expiry, user-configurable thresholds (default 30/14/7 days out — avoid duplicate sends per threshold)
 - [ ] 1,000-domain cap enforcement with explicit "contact support" message
 - [ ] Stripe subscription checkout (annual, $9/mo rate) + Customer Portal for cancellation/billing management
 - [ ] Stripe webhook handler → syncs subscription status to Supabase
@@ -96,7 +96,11 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=
 SUPABASE_SERVICE_ROLE_KEY=        # server-only, never expose to client
 STRIPE_SECRET_KEY=
 STRIPE_WEBHOOK_SECRET=
-RESEND_API_KEY=
+SMTP_HOST=                        # SMTP2Go (or other SMTP provider) host
+SMTP_PORT=587
+SMTP_USER=
+SMTP_PASS=
+SMTP_FROM=alerts@domainlert.com
 WHOIS_FALLBACK_API_KEY=           # e.g. Whoxy, used only when RDAP fails
 CRON_SECRET=                      # bearer token required to call /api/cron/check-domains
 ```
