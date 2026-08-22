@@ -61,17 +61,8 @@ export async function GET(request: Request) {
       await supabase.from("domains").update(update).eq("id", domain.id);
     });
 
-    return NextResponse.json({
-      checked,
-      failed,
-      // TEMP diagnostics — remove once the 0-domains issue is resolved.
-      domainsFound: domains?.length ?? 0,
-      supabaseHost: process.env.NEXT_PUBLIC_SUPABASE_URL,
-      serviceKeyPrefix: process.env.SUPABASE_SERVICE_ROLE_KEY?.slice(0, 10) ?? null,
-      serviceKeyLength: process.env.SUPABASE_SERVICE_ROLE_KEY?.length ?? 0,
-    });
+    return NextResponse.json({ checked, failed });
   } catch (err) {
-    // TEMP: surface the real cause instead of a bare 500 while we debug the cron route.
     return NextResponse.json(
       { error: "Unhandled exception", detail: err instanceof Error ? err.message : String(err) },
       { status: 500 }
