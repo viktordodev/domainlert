@@ -98,6 +98,7 @@ STRIPE_SECRET_KEY=
 STRIPE_WEBHOOK_SECRET=
 RESEND_API_KEY=
 WHOIS_FALLBACK_API_KEY=           # e.g. Whoxy, used only when RDAP fails
+CRON_SECRET=                      # bearer token required to call /api/cron/check-domains
 ```
 
 ---

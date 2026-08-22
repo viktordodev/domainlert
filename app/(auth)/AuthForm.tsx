@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Logo } from "../components/Logo";
+import { SubmitButton } from "./SubmitButton";
 import styles from "./auth.module.css";
 
 type AuthFormProps = {
@@ -34,7 +35,10 @@ export function AuthForm({ action, mode, error, message }: AuthFormProps) {
           <input id="email" name="email" type="email" autoComplete="email" required />
           <label htmlFor="password">Password</label>
           <input id="password" name="password" type="password" minLength={8} autoComplete={isLogin ? "current-password" : "new-password"} required />
-          <button type="submit">{isLogin ? "Log in" : "Create account"}<span aria-hidden="true">↗</span></button>
+          <SubmitButton
+            label={isLogin ? "Log in" : "Create account"}
+            pendingMessage={isLogin ? "Signing you in. Please wait..." : "Creating your account. Please wait..."}
+          />
         </form>
 
         <p className={styles.switch}>

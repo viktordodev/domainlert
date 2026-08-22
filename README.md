@@ -34,3 +34,21 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+## Domain expiry checks
+
+`GET /api/cron/check-domains` looks up every tracked domain via RDAP and updates its status/expiry date. It requires an `Authorization: Bearer $CRON_SECRET` header (set `CRON_SECRET` in your environment).
+
+In Coolify, add a **Scheduled Task** on the application:
+- Command: `bash scripts/check-domains.sh`
+- Container: the app's container name (find it under Terminal in the sidebar, e.g. `hzxw4bmm2xzijvighmzyrylw-071913616859`)
+- Schedule: e.g. `0 6 * * *` for a daily 6am run
+
+The task runs inside the app container, so it reaches the app at `localhost:3000` and picks up `CRON_SECRET` from the app's own environment variables — no extra config needed.
+
+You can also trigger it manually for testing:
+
+```bash
+SITE_URL=https://your-domain.example CRON_SECRET=your-secret ./scripts/check-domains.sh
+```
+

@@ -52,3 +52,30 @@ export async function importDomains(formData: FormData) {
   const skipped = existingNames.size + invalid.length;
   result(`Imported ${newDomains.length} domain${newDomains.length === 1 ? "" : "s"}${skipped ? `; skipped ${skipped}.` : "."}`);
 }
+
+export async function deleteDomain(formData: FormData) {
+  const domainId = formData.get("domainId");
+
+  if (typeof domainId !== "string" || !domainId) {
+    result("We could not identify that domain.");
+  }
+
+  const supabase = createClient(await cookies());
+  const { data: { user } } = await supabase.auth.getUser();
+
+  if (!user) {
+    redirect("/login");
+  }
+
+  const { error } = await supabase
+    .from("domains")
+    .delete()
+    .eq("id", domainId)
+    .eq("user_id", user.id);
+
+  if (error) {
+    result("We could not remove that domain. Please try again.");
+  }
+
+  result("Domain removed.");
+}

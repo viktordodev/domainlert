@@ -227,7 +227,7 @@
   font-size: 12px;
   font-weight: 800;
   text-align: left;
-  transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
 }
 .importForm button:hover {
   background: var(--rust);
@@ -250,9 +250,16 @@
   padding: 0 32px 48px;
 }
 .signOut button {
+  width: fit-content;
+  justify-content: flex-start;
   border: 1px solid var(--line);
   background: transparent;
   color: var(--ink);
+}
+.signOut button:hover {
+  border-color: var(--rust);
+  background: var(--rust);
+  color: var(--paper);
 }
 @media (max-width: 760px) {
   .workspace {

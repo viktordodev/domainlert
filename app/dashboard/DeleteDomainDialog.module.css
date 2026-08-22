@@ -1,0 +1,104 @@
+.trigger {
+  padding: 6px 0;
+  border: 0;
+  border-bottom: 1px solid currentColor;
+  background: transparent;
+  color: var(--rust);
+  cursor: pointer;
+  font: 10px var(--font-dm-mono), monospace;
+  text-transform: uppercase;
+}
+
+.trigger:hover {
+  color: var(--ink);
+}
+
+.dialog {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: min(420px, calc(100vw - 40px));
+  margin: 0;
+  padding: 0;
+  border: 1px solid var(--ink);
+  background: var(--paper);
+  box-shadow: 10px 10px 0 var(--ink);
+  color: var(--ink);
+  transform: translate(-50%, -50%);
+}
+
+.dialog::backdrop {
+  background: rgb(28 29 25 / 46%);
+}
+
+.content {
+  padding: 28px;
+}
+
+.kicker {
+  color: var(--rust);
+  font: 10px var(--font-dm-mono), monospace;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.content h2 {
+  margin-top: 12px;
+  font-family: var(--font-playfair), serif;
+  font-size: 30px;
+  font-weight: 500;
+  line-height: 1;
+  overflow-wrap: anywhere;
+}
+
+.content > p:not(.kicker) {
+  margin-top: 16px;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 28px;
+}
+
+.actions button {
+  min-height: 40px;
+  padding: 10px 13px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  font: 12px var(--font-manrope), sans-serif;
+  font-weight: 800;
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}
+
+.actions .cancelButton {
+  border-color: var(--line);
+  background: transparent;
+  color: var(--ink);
+}
+
+.actions .cancelButton:hover {
+  border-color: var(--rust);
+  background: var(--rust);
+  color: var(--paper);
+}
+
+.deleteButton {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.deleteButton:hover {
+  background: var(--rust);
+}
+
+.actions button:disabled {
+  background: var(--muted);
+  border-color: var(--muted);
+  color: var(--paper);
+  cursor: wait;
+}

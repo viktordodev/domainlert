@@ -49,6 +49,7 @@ export async function Header() {
           <div className={styles.accountDropdown}>
             <span>{user.email}</span>
             <Link href="/dashboard">Dashboard <b aria-hidden="true">↗</b></Link>
+            <Link href="/profile">Profile <b aria-hidden="true">↗</b></Link>
             <form action={signOut}><button type="submit">Log out <b aria-hidden="true">↗</b></button></form>
           </div>
         </ClickOutsideDetails> : <>
@@ -64,6 +65,7 @@ export async function Header() {
           <Link href="#resources">Resources</Link>
           <Link href="#pricing">Pricing</Link>
           <Link href={accountHref}>{user ? "Dashboard" : accountLabel}</Link>
+          {user && <Link href="/profile">Profile</Link>}
           {user && <form action={signOut}><button type="submit">Log out</button></form>}
         </nav>
       </details>
