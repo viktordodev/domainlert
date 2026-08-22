@@ -16,13 +16,13 @@ export function AuthForm({ action, mode, error, message }: AuthFormProps) {
     <main className={styles.shell}>
       <div className={styles.panel}>
         <Link className={styles.back} href="/" aria-label="DomainLert home">
-          <Logo />
+          <Logo animated />
         </Link>
         <p className={styles.kicker}>{isLogin ? "Welcome back" : "Start monitoring"}</p>
         <h1>{isLogin ? "Keep watch." : "Make renewals boring."}</h1>
         <p className={styles.intro}>
           {isLogin
-            ? "Sign in to see your domain portfolio and the next dates that need attention."
+            ? "Sign in to see your managed domains and the next dates that need attention."
             : "Create your account and get a clear view of every domain before time gets tight."}
         </p>
 

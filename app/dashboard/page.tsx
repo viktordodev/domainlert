@@ -33,11 +33,11 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
       <Header />
       <section className={styles.workspace}>
         <div className={styles.workspaceHeading}>
-          <div><p className={styles.eyebrow}><span className={styles.liveDot}></span> Domain monitoring</p><h1>Your portfolio</h1></div>
+          <div><p className={styles.eyebrow}><span className={styles.liveDot}></span> Domain monitoring</p><h1>Managed Domains</h1></div>
           <p>{user.email}</p>
         </div>
-        <div className={styles.visualLabel}>Portfolio / {domainCount} domains <span>● LIVE</span></div>
-        <section className={styles.dashboardCard} aria-label="Domain portfolio">
+        <div className={styles.visualLabel}>Managed Domains / {domainCount} domains <span>● MONITORING ACTIVE</span></div>
+        <section className={styles.dashboardCard} aria-label="Managed Domains">
           <div className={styles.cardTop}><strong>Good morning</strong><span>{new Date().toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" }).toUpperCase()}</span></div>
           <div className={styles.health}><div><strong>{healthyCount}</strong><span>domains healthy</span></div><div className={styles.healthRing}>{healthPercent}%</div></div>
           <div className={styles.cardRows}>
@@ -47,7 +47,7 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
         </section>
       </section>
       <section className={styles.importSection}>
-        <div><p className={styles.kicker}>Add to your portfolio</p><h2>Bring your list.</h2><p>Paste domains separated by commas, spaces, or new lines. We will remove duplicates and keep your list private.</p></div>
+        <div><p className={styles.kicker}>Add to Managed Domains</p><h2>Bring your list.</h2><p>Paste domains separated by commas, spaces, or new lines. We will remove duplicates and keep your list private.</p></div>
         <form action={importDomains} className={styles.importForm}>
           <label htmlFor="domains">Domain list</label>
           <textarea id="domains" name="domains" placeholder="northstar.studio\nacme-services.com\nfieldnotes.io" required />

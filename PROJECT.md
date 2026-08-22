@@ -1,7 +1,7 @@
 # Bulk Domain Expiry Checker — Project Spec
 
 ## Overview
-A SaaS tool that monitors a customer's domain portfolio and alerts them before domains expire. Built for simplicity: one flat plan, no per-domain pricing tiers, minimal ops overhead.
+A SaaS tool that monitors a customer's managed domains and alerts them before domains expire. Built for simplicity: one flat plan, no per-domain pricing tiers, minimal ops overhead.
 
 **Primary audience:** agencies and IT teams managing many client/company domains, who are liable for lapses they often don't directly control.
 
@@ -31,7 +31,7 @@ Every page should have a distinct purpose, a clear primary action, useful metada
 | `/resources/how-to-check-domain-expiry` | Educational guide covering expiry dates, registrar data, RDAP/WHOIS limits, and how to verify a renewal. |
 | `/resources/domain-grace-periods` | Explain grace, redemption, and release stages in accessible language, with a reminder that policies vary by TLD and registrar. |
 | `/resources/domain-renewal-checklist` | Downloadable or scannable checklist for agencies and IT teams: ownership, billing contact, auto-renewal, DNS dependencies, and confirmation. |
-| `/for/agencies` | Show how agencies can centralize client domains, assign responsibility, import portfolios, and send alerts to multiple recipients. |
+| `/for/agencies` | Show how agencies can centralize client domains, assign responsibility, import domain lists, and send alerts to multiple recipients. |
 | `/for/freelancers` | Focus on protecting a small set of valuable client and personal domains with minimal setup. |
 | `/for/startups` | Focus on launch domains, investor-facing infrastructure, ownership continuity, and avoiding renewal surprises during team changes. |
 | `/for/it-ops` | Focus on inventory, operational ownership, status visibility, audit history, and predictable alerting. |

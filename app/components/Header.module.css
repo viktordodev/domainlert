@@ -13,10 +13,11 @@
 .nav { display: flex; align-items: center; gap: 25px; margin-left: 30px; font-size: 12px; font-weight: 700; }
 .nav a:hover, .login:hover { color: var(--rust); }
 .actions { display: flex; align-items: center; gap: 18px; margin-left: auto; font-size: 12px; font-weight: 800; }
-.cta { padding: 13px 17px; background: var(--ink); color: var(--paper); }
-.cta span { color: var(--teal); margin-left: 9px; font-size: 15px; }
+.cta { display: inline-flex; align-items: center; gap: 9px; padding: 13px 17px; background: var(--ink); color: var(--paper); transition: background-color 0.3s ease; }
+.cta:hover { background: var(--rust); }
+.cta span { color: var(--teal); font-size: 15px; line-height: 1; }
 .accountMenu { position: relative; }
-.accountMenu summary { display: grid; width: 40px; height: 40px; place-items: center; border: 1px solid var(--line); border-radius: 50%; background: var(--ink); color: var(--paper); cursor: pointer; list-style: none; }
+.accountMenu summary { display: grid; width: 40px; height: 40px; place-items: center; border: 1px solid var(--line); border-radius: 50%; background: var(--ink); color: var(--paper); cursor: pointer; list-style: none; transition: background-color 0.3s ease; }
 .accountMenu summary::-webkit-details-marker { display: none; }
 .accountMenu summary:hover { background: var(--rust); }
 .accountMenu summary svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.7; }
