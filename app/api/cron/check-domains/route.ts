@@ -66,5 +66,7 @@ export async function GET(request: Request) {
     // TEMP diagnostics — remove once the 0-domains issue is resolved.
     domainsFound: domains?.length ?? 0,
     supabaseHost: process.env.NEXT_PUBLIC_SUPABASE_URL,
+    serviceKeyPrefix: process.env.SUPABASE_SERVICE_ROLE_KEY?.slice(0, 10) ?? null,
+    serviceKeyLength: process.env.SUPABASE_SERVICE_ROLE_KEY?.length ?? 0,
   });
 }
