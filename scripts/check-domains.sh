@@ -4,7 +4,7 @@
 set -euo pipefail
 
 SITE_URL="${SITE_URL:-http://localhost:3000}"
-: "${CRON_SECRET:?Set CRON_SECRET to match the app's environment variable}"
+: "${CRON_SECRET:?Set CRON_SECRET to match the deployed app environment variable}"
 
 curl --fail --silent --show-error \
   -H "Authorization: Bearer ${CRON_SECRET}" \
