@@ -66,32 +66,6 @@ export async function updateProfile(formData: FormData) {
   result("Your profile has been updated.");
 }
 
-export async function updateAlertThresholds(formData: FormData) {
-  const raw = valueFrom(formData, "alertThresholds");
-  const thresholds = [...new Set(
-    raw.split(",").map((part) => Number.parseInt(part.trim(), 10)).filter((n) => Number.isInteger(n) && n > 0 && n <= 365)
-  )].sort((a, b) => b - a);
-
-  if (thresholds.length === 0) {
-    result("Enter at least one valid day threshold (1-365), separated by commas.");
-  }
-
-  if (thresholds.length > 10) {
-    result("Use 10 or fewer thresholds.");
-  }
-
-  const { supabase } = await getUser();
-  const { error } = await supabase.auth.updateUser({
-    data: { alert_thresholds: thresholds },
-  });
-
-  if (error) {
-    result("We could not update your alert thresholds. Please try again.");
-  }
-
-  result("Your alert thresholds have been updated.");
-}
-
 export async function updateEmail(formData: FormData) {
   const email = valueFrom(formData, "email").toLowerCase();
   const { supabase, user } = await getUser();

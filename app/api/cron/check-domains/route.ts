@@ -50,12 +50,13 @@ async function getUserAlertSettings(
 
 async function sendPendingAlerts(
   supabase: SupabaseServiceClient,
-  domain: { id: string; domain_name: string; user_id: string },
+  domain: { id: string; domain_name: string; user_id: string; alert_thresholds: number[] | null },
   expiryDate: string,
   userCache: Map<string, UserAlertSettings>
 ) {
   const daysRemaining = daysUntil(expiryDate);
-  const { email, thresholds } = await getUserAlertSettings(supabase, domain.user_id, userCache);
+  const { email, thresholds: defaultThresholds } = await getUserAlertSettings(supabase, domain.user_id, userCache);
+  const thresholds = domain.alert_thresholds && domain.alert_thresholds.length > 0 ? domain.alert_thresholds : defaultThresholds;
 
   if (!email) return;
 
@@ -85,7 +86,7 @@ export async function GET(request: Request) {
     const supabase = createServiceClient();
     const { data: domains, error } = await supabase
       .from("domains")
-      .select("id, domain_name, user_id");
+      .select("id, domain_name, user_id, alert_thresholds");
 
     if (error) {
       return NextResponse.json({ error: "Could not load domains", detail: error.message }, { status: 500 });

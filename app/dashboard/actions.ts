@@ -10,6 +10,16 @@ function result(message: string) {
   redirect(`/dashboard?import=${encodeURIComponent(message)}`);
 }
 
+function alertsResult(message: string): never {
+  redirect(`/dashboard?alerts=${encodeURIComponent(message)}`);
+}
+
+function parseThresholds(raw: string): number[] {
+  return [...new Set(
+    raw.split(",").map((part) => Number.parseInt(part.trim(), 10)).filter((n) => Number.isInteger(n) && n > 0 && n <= 365)
+  )].sort((a, b) => b - a);
+}
+
 export async function importDomains(formData: FormData) {
   const supabase = createClient(await cookies());
   const { data: { user } } = await supabase.auth.getUser();
@@ -78,4 +88,71 @@ export async function deleteDomain(formData: FormData) {
   }
 
   result("Domain removed.");
+}
+
+export async function updateGlobalAlertThresholds(formData: FormData) {
+  const rawValue = formData.get("alertThresholds");
+  const thresholds = parseThresholds(typeof rawValue === "string" ? rawValue : "");
+
+  if (thresholds.length === 0) {
+    alertsResult("Enter at least one valid day threshold (1-365), separated by commas.");
+  }
+
+  if (thresholds.length > 10) {
+    alertsResult("Use 10 or fewer thresholds.");
+  }
+
+  const supabase = createClient(await cookies());
+  const { data: { user } } = await supabase.auth.getUser();
+
+  if (!user) {
+    redirect("/login");
+  }
+
+  const { error } = await supabase.auth.updateUser({ data: { alert_thresholds: thresholds } });
+
+  if (error) {
+    alertsResult("We could not update your default alert thresholds. Please try again.");
+  }
+
+  alertsResult("Your default alert thresholds have been updated.");
+}
+
+export async function updateDomainAlertThresholds(formData: FormData) {
+  const domainId = formData.get("domainId");
+
+  if (typeof domainId !== "string" || !domainId) {
+    alertsResult("We could not identify that domain.");
+  }
+
+  const rawValue = formData.get("alertThresholds");
+  const raw = typeof rawValue === "string" ? rawValue.trim() : "";
+  const thresholds = raw.length === 0 ? null : parseThresholds(raw);
+
+  if (thresholds !== null && thresholds.length === 0) {
+    alertsResult("Enter valid day thresholds (1-365), separated by commas, or leave blank to use your default.");
+  }
+
+  if (thresholds !== null && thresholds.length > 10) {
+    alertsResult("Use 10 or fewer thresholds.");
+  }
+
+  const supabase = createClient(await cookies());
+  const { data: { user } } = await supabase.auth.getUser();
+
+  if (!user) {
+    redirect("/login");
+  }
+
+  const { error } = await supabase
+    .from("domains")
+    .update({ alert_thresholds: thresholds })
+    .eq("id", domainId)
+    .eq("user_id", user.id);
+
+  if (error) {
+    alertsResult("We could not update alerts for that domain. Please try again.");
+  }
+
+  alertsResult(thresholds === null ? "This domain now uses your default alert thresholds." : "Custom alert thresholds saved for this domain.");
 }
