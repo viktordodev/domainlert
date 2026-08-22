@@ -33,7 +33,7 @@ export async function GET(request: Request) {
     .select("id, domain_name");
 
   if (error) {
-    return NextResponse.json({ error: "Could not load domains" }, { status: 500 });
+    return NextResponse.json({ error: "Could not load domains", detail: error.message }, { status: 500 });
   }
 
   let checked = 0;
@@ -60,5 +60,11 @@ export async function GET(request: Request) {
     await supabase.from("domains").update(update).eq("id", domain.id);
   });
 
-  return NextResponse.json({ checked, failed });
+  return NextResponse.json({
+    checked,
+    failed,
+    // TEMP diagnostics — remove once the 0-domains issue is resolved.
+    domainsFound: domains?.length ?? 0,
+    supabaseHost: process.env.NEXT_PUBLIC_SUPABASE_URL,
+  });
 }
