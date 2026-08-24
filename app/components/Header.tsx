@@ -8,8 +8,8 @@ import styles from "./Header.module.css";
 
 const products = [
   { name: "DomainLert", description: "Domain expiry monitoring", href: "/" },
-  { name: "Site Watcher", description: "Coming soon", href: "#" },
-  { name: "SSL monitor", description: "Coming soon", href: "#" },
+  { name: "Task Ledger", description: "Lightweight task tracking", href: "#" },
+  { name: "DNS Lens", description: "DNS health checks", href: "#" },
 ];
 
 export async function Header() {
@@ -36,10 +36,10 @@ export async function Header() {
         </div>
       </ClickOutsideDetails>
       <nav className={styles.nav} aria-label="Main navigation">
-        <Link href="#product">Product</Link>
-        <Link href="#solutions">Solutions</Link>
-        <Link href="#resources">Resources</Link>
-        <Link href="#pricing">Pricing</Link>
+        <Link href="/#product">Product</Link>
+        <Link href="/#solutions">Solutions</Link>
+        <Link href="/#resources">Resources</Link>
+        <Link href="/#pricing">Pricing</Link>
       </nav>
       <div className={styles.actions}>
         {user ? <ClickOutsideDetails className={styles.accountMenu}>
@@ -60,10 +60,10 @@ export async function Header() {
       <details className={styles.mobileMenu}>
         <summary aria-label="Open navigation"><span></span><span></span></summary>
         <nav aria-label="Mobile navigation">
-          <Link href="#product">Product</Link>
-          <Link href="#solutions">Solutions</Link>
-          <Link href="#resources">Resources</Link>
-          <Link href="#pricing">Pricing</Link>
+          <Link href="/#product">Product</Link>
+          <Link href="/#solutions">Solutions</Link>
+          <Link href="/#resources">Resources</Link>
+          <Link href="/#pricing">Pricing</Link>
           <Link href={accountHref}>{user ? "Dashboard" : accountLabel}</Link>
           {user && <Link href="/profile">Profile</Link>}
           {user && <form action={signOut}><button type="submit">Log out</button></form>}

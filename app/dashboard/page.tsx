@@ -3,7 +3,6 @@ import { cookies } from "next/headers";
 import { createClient } from "@/utils/supabase/server";
 import { DEFAULT_ALERT_THRESHOLDS } from "@/utils/alert-thresholds";
 import { signOut } from "../(auth)/actions";
-import { Header } from "../components/Header";
 import { deleteDomain, importDomains, updateDomainAlertThresholds, updateGlobalAlertThresholds } from "./actions";
 import { DomainList } from "./DomainList";
 import styles from "./dashboard.module.css";
@@ -45,7 +44,6 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
 
   return (
     <main className={styles.page}>
-      <Header />
       <section className={styles.workspace}>
         <div className={styles.workspaceHeading}>
           <div><p className={styles.eyebrow}><span className={styles.liveDot}></span> Domain monitoring</p><h1>Managed Domains</h1>{params.alerts && <p className={`${styles.notice} ${styles.headingNotice}`} role="status">{params.alerts}</p>}</div>

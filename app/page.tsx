@@ -1,8 +1,6 @@
 import Link from "next/link";
 import { cookies } from "next/headers";
 import { createClient } from "@/utils/supabase/server";
-import { Footer } from "./components/Footer";
-import { Header } from "./components/Header";
 import styles from "./page.module.css";
 
 export default async function Home() {
@@ -13,7 +11,6 @@ export default async function Home() {
 
   return (
     <div className={styles.page}>
-      <Header />
       <main>
         <section className={styles.hero}>
           <div className={styles.heroCopy}>
@@ -45,7 +42,6 @@ export default async function Home() {
         <section className={styles.faq} id="resources"><div><p className={styles.kicker}>Questions, answered</p><h2>Good to know.</h2></div><div>{[["Does DomainLert renew domains for me?", "No. It makes sure the right person knows when it is time to renew. You stay in control of the registrar and the renewal."], ["What is the fair usage policy?", "The plan includes normal domain monitoring for your portfolio. We may reach out if an account creates unusually high or abusive automated traffic, so the service stays reliable for everyone."], ["How will I know when a domain needs attention?", "DomainLert checks your domains daily and sends alerts at 90, 60, 30, 14, and 7 days before expiry, so there is time to act."], ["Can I import domains in bulk?", "Yes. Paste in a list of domains to import them together, then review their expiry dates and status from one dashboard."], ["Can alerts go to more than one person?", "Yes. Add multiple alert recipients so renewals reach the owner, client, or teammate responsible for taking action."], ["Can I cancel my service?", "Yes. Cancel within your first 30 days for a full refund. After that window, you can still cancel at any time to stop future renewals."]].map(([question, answer]) => <details className={styles.faqItem} key={question}><summary>{question}<span>+</span></summary><p>{answer}</p></details>)}</div></section>
         <section className={styles.finalCta} id="start"><p className={styles.kicker}>Make the next renewal boring</p><h2>Know before<br /><em>you have to know.</em></h2><Link className={styles.primaryButton} href={ctaHref}>{user ? "Open your dashboard" : "Start monitoring"} <span aria-hidden="true">↗</span></Link></section>
       </main>
-      <Footer />
     </div>
   );
 }

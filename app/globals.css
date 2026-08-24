@@ -33,6 +33,12 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+.siteShell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
 * {
   box-sizing: border-box;
   padding: 0;

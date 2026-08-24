@@ -2,7 +2,6 @@ import Link from "next/link";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { createClient } from "@/utils/supabase/server";
-import { Header } from "../components/Header";
 import { updateEmail, updatePassword, updateProfile } from "./actions";
 import styles from "./profile.module.css";
 
@@ -27,7 +26,6 @@ export default async function ProfilePage({ searchParams }: ProfilePageProps) {
 
   return (
     <main className={styles.page}>
-      <Header />
       <section className={styles.workspace}>
         <div className={styles.heading}>
           <div>

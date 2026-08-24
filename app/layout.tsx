@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { DM_Mono, Manrope, Playfair_Display } from "next/font/google";
 import "./globals.css";
+import { Footer } from "./components/Footer";
+import { Header } from "./components/Header";
 
 const manrope = Manrope({
   variable: "--font-manrope",
@@ -30,7 +32,13 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="en"
       className={`${manrope.variable} ${playfair.variable} ${dmMono.variable}`}
     >
-      <body>{children}</body>
+      <body>
+        <div className="siteShell">
+          <Header />
+          {children}
+          <Footer />
+        </div>
+      </body>
     </html>
   );
 }

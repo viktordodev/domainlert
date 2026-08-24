@@ -1,5 +1,5 @@
-.logo { display: inline-flex; align-items: center; gap: 10px; color: inherit; font-size: 15px; font-weight: 800; letter-spacing: -0.04em; }
-.mark { width: 32px; height: 32px; flex: 0 0 auto; overflow: visible; }
+.logo { display: inline-flex; align-items: center; gap: 12px; color: inherit; font-size: 16px; font-weight: 800; letter-spacing: -0.04em; }
+.mark { width: 38px; height: 38px; flex: 0 0 auto; overflow: visible; }
 .tile { fill: var(--ink); }
 .lens { fill: var(--teal); stroke: var(--paper); stroke-width: 1.5; }
 .glass { fill: none; stroke: var(--paper); stroke-linecap: round; stroke-width: 3.5; }

@@ -1,0 +1,85 @@
+.page {
+  min-height: 100vh;
+  color: var(--ink);
+  background: var(--paper);
+}
+
+.content {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 70px 32px 100px;
+}
+
+.eyebrow {
+  color: var(--rust);
+  font: 10px var(--font-dm-mono), monospace;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.content h1 {
+  max-width: 760px;
+  margin-top: 16px;
+  font-family: var(--font-playfair), serif;
+  font-size: clamp(48px, 7vw, 86px);
+  font-weight: 500;
+  line-height: 0.92;
+}
+
+.updated {
+  margin-top: 22px;
+  color: var(--muted);
+  font: 10px var(--font-dm-mono), monospace;
+  text-transform: uppercase;
+}
+
+.body {
+  max-width: 760px;
+  margin-top: 70px;
+  border-top: 1px solid var(--line);
+}
+
+.section {
+  padding: 30px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.section h2 {
+  font-family: var(--font-playfair), serif;
+  font-size: 28px;
+  font-weight: 500;
+  line-height: 1;
+}
+
+.section p,
+.section li {
+  max-width: 680px;
+  margin-top: 14px;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.75;
+}
+
+.section ul {
+  padding-left: 20px;
+}
+
+.section a {
+  color: var(--teal-dark);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.section a:hover {
+  color: var(--rust);
+}
+
+@media (max-width: 760px) {
+  .content {
+    padding: 48px 20px 70px;
+  }
+
+  .body {
+    margin-top: 48px;
+  }
+}
