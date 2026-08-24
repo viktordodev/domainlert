@@ -50,15 +50,16 @@ async function getUserAlertSettings(
 
 async function sendPendingAlerts(
   supabase: SupabaseServiceClient,
-  domain: { id: string; domain_name: string; user_id: string; alert_thresholds: number[] | null },
+  domain: { id: string; domain_name: string; user_id: string; alert_thresholds: number[] | null; alert_recipients: string[] | null },
   expiryDate: string,
   userCache: Map<string, UserAlertSettings>
 ) {
   const daysRemaining = daysUntil(expiryDate);
   const { email, thresholds: defaultThresholds } = await getUserAlertSettings(supabase, domain.user_id, userCache);
+  const recipients = domain.alert_recipients?.length ? domain.alert_recipients : email ? [email] : [];
   const thresholds = domain.alert_thresholds && domain.alert_thresholds.length > 0 ? domain.alert_thresholds : defaultThresholds;
 
-  if (!email) return;
+  if (recipients.length === 0) return;
 
   for (const threshold of thresholds) {
     if (daysRemaining > threshold) continue;
@@ -70,7 +71,7 @@ async function sendPendingAlerts(
     // A unique constraint violation means this threshold was already alerted on — skip silently.
     if (insertError) continue;
 
-    await sendExpiryAlertEmail({ to: email, domainName: domain.domain_name, daysRemaining, expiryDate });
+    await sendExpiryAlertEmail({ to: recipients.join(", "), domainName: domain.domain_name, daysRemaining, expiryDate });
   }
 }
 
@@ -86,7 +87,7 @@ export async function GET(request: Request) {
     const supabase = createServiceClient();
     const { data: domains, error } = await supabase
       .from("domains")
-      .select("id, domain_name, user_id, alert_thresholds");
+      .select("id, domain_name, user_id, alert_thresholds, alert_recipients");
 
     if (error) {
       return NextResponse.json({ error: "Could not load domains", detail: error.message }, { status: 500 });

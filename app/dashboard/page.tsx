@@ -5,8 +5,7 @@ import { DEFAULT_ALERT_THRESHOLDS } from "@/utils/alert-thresholds";
 import { signOut } from "../(auth)/actions";
 import { Header } from "../components/Header";
 import { deleteDomain, importDomains, updateDomainAlertThresholds, updateGlobalAlertThresholds } from "./actions";
-import { DeleteDomainDialog } from "./DeleteDomainDialog";
-import { DomainAlertsDialog } from "./DomainAlertsDialog";
+import { DomainList } from "./DomainList";
 import styles from "./dashboard.module.css";
 
 type DashboardPageProps = {
@@ -22,10 +21,17 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
   }
 
   const params = await searchParams;
-  const { data: domains } = await supabase
+  const { data: domainsWithRecipients, error: recipientsQueryError } = await supabase
     .from("domains")
-    .select("id, domain_name, status, expiry_date, alert_thresholds")
+    .select("id, domain_name, status, expiry_date, alert_thresholds, alert_recipients")
     .order("domain_name");
+  const { data: legacyDomains } = recipientsQueryError
+    ? await supabase
+      .from("domains")
+      .select("id, domain_name, status, expiry_date, alert_thresholds")
+      .order("domain_name")
+    : { data: null };
+  const domains = domainsWithRecipients ?? legacyDomains?.map((domain) => ({ ...domain, alert_recipients: null })) ?? [];
   const domainCount = domains?.length ?? 0;
   const healthyCount = domains?.filter((domain) => domain.status === "active").length ?? 0;
   const warningCount = domains?.filter((domain) => domain.status === "expiring_soon").length ?? 0;
@@ -42,16 +48,14 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
       <Header />
       <section className={styles.workspace}>
         <div className={styles.workspaceHeading}>
-          <div><p className={styles.eyebrow}><span className={styles.liveDot}></span> Domain monitoring</p><h1>Managed Domains</h1></div>
+          <div><p className={styles.eyebrow}><span className={styles.liveDot}></span> Domain monitoring</p><h1>Managed Domains</h1>{params.alerts && <p className={`${styles.notice} ${styles.headingNotice}`} role="status">{params.alerts}</p>}</div>
         </div>
         <div className={styles.visualLabel}>Managed Domains / {domainCount} domains <span>● MONITORING ACTIVE</span></div>
         <section className={styles.dashboardCard} aria-label="Managed Domains">
           <div className={styles.cardTop}><strong>{accountName ? `Good morning, ${accountName}` : "Good morning"}</strong><span>{new Date().toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" }).toUpperCase()}</span></div>
-          <div className={styles.health}><div><strong>{healthyCount} out of {domainCount}</strong><span>domains healthy</span></div><div className={styles.healthRing} style={{ background: `conic-gradient(from -90deg, var(--teal) ${healthPercent}%, var(--line) ${healthPercent}% 100%)` }}>{healthPercent}%</div></div>
-          <div className={styles.cardRows}>
-            {domains?.length ? domains.map((domain) => <div className={`${styles.cardRow} ${domain.status === "expiring_soon" ? styles.warning : ""}`} key={domain.id}><span className={domain.status === "expiring_soon" ? styles.statusWarn : styles.statusGood}></span><strong>{domain.domain_name}</strong><span>{domain.expiry_date ?? "Expiry check pending"}</span><small>{domain.status.replace("_", " ")}</small><DomainAlertsDialog action={updateDomainAlertThresholds} domainId={domain.id} domainName={domain.domain_name} customThresholds={domain.alert_thresholds} defaultThresholds={defaultAlertThresholds} /><DeleteDomainDialog action={deleteDomain} domainId={domain.id} domainName={domain.domain_name} /></div>) : <div className={styles.cardEmpty}>Your first domains will appear here.</div>}
-          </div>
-          <div className={styles.cardFooter}>{warningCount ? `${warningCount} domain${warningCount === 1 ? "" : "s"} need attention` : "All checks look clear"}<span>{domainCount} tracked</span></div>
+          <div className={styles.health}><div><strong className={styles.healthMetric}><span>{healthyCount}/{domainCount}</span></strong><span>domains healthy</span></div><div className={styles.healthRing} style={{ background: `conic-gradient(from -90deg, var(--teal) ${healthPercent}%, var(--line) ${healthPercent}% 100%)` }}>{healthPercent}%</div></div>
+          <DomainList domains={domains ?? []} deleteAction={deleteDomain} alertsAction={updateDomainAlertThresholds} defaultThresholds={defaultAlertThresholds} />
+          {warningCount > 0 && <div className={styles.cardFooter}>{warningCount} domain{warningCount === 1 ? "" : "s"} need attention</div>}
         </section>
       </section>
       <section className={styles.importSection}>
@@ -70,7 +74,6 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
           <input id="alertThresholds" name="alertThresholds" type="text" defaultValue={defaultAlertThresholds.join(", ")} placeholder="30, 14, 7" required />
           <button type="submit">Save default <span aria-hidden="true">↗</span></button>
         </form>
-        {params.alerts && <p className={styles.notice} role="status">{params.alerts}</p>}
       </section>
       <form action={signOut} className={styles.signOut}><button type="submit">Log out</button></form>
     </main>

@@ -23,6 +23,10 @@
   font-weight: 500;
   line-height: 0.9;
 }
+.headingNotice {
+  width: fit-content;
+  margin-top: 32px;
+}
 .workspaceHeading > p {
   max-width: 240px;
   overflow: hidden;
@@ -96,18 +100,36 @@
   justify-content: space-between;
   padding: 27px 0;
 }
-.health strong {
+.healthMetric {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+.healthMetric > span {
   display: block;
   font-family: var(--font-playfair), serif;
   font-size: 62px;
   font-weight: 500;
   line-height: 0.8;
 }
+.healthMetric small {
+  color: var(--muted);
+  font:
+    11px var(--font-dm-mono),
+    monospace;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
 .health span {
   display: block;
   margin-top: 13px;
   color: var(--muted);
   font-size: 11px;
+}
+.health .healthMetric > span {
+  margin-top: 0;
+  color: var(--ink);
+  font-size: 62px;
 }
 .healthRing {
   position: relative;
@@ -129,27 +151,128 @@
   background: var(--paper);
   content: "";
 }
-.cardRows {
+.listControls {
+  display: flex;
+  align-items: end;
+  gap: 12px;
+  padding: 23px 0 22px;
   border-top: 1px solid var(--line);
 }
+.searchField,
+.sortField,
+.pageSizeField {
+  display: grid;
+  gap: 7px;
+  color: var(--muted);
+  font:
+    9px var(--font-dm-mono),
+    monospace;
+  text-transform: uppercase;
+}
+.searchField {
+  flex: 1;
+  max-width: 360px;
+}
+.sortField {
+  margin-left: auto;
+}
+.pageSizeField {
+  margin-left: 0;
+}
+.searchField input,
+.sortField select,
+.pageSizeField select {
+  min-height: 36px;
+  padding: 8px 10px;
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  background: white;
+  color: var(--ink);
+  font: 11px var(--font-manrope), sans-serif;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.searchField input:focus,
+.sortField select:focus,
+.pageSizeField select:focus {
+  border-color: var(--teal-dark);
+  box-shadow: 0 0 0 3px var(--teal-pale);
+}
+.searchField input::placeholder {
+  color: #a2a29a;
+}
+.sortField select {
+  min-width: 112px;
+  cursor: pointer;
+}
+.pageSizeField select {
+  min-width: 68px;
+  cursor: pointer;
+}
+.listHeader {
+  display: grid;
+  grid-template-columns: 7px minmax(0, 1fr) 110px 110px 132px 130px;
+  gap: 14px;
+  padding: 0 0 9px;
+  color: var(--muted);
+  font:
+    9px var(--font-dm-mono),
+    monospace;
+  text-transform: uppercase;
+}
+.listHeader span:last-child {
+  text-align: right;
+}
+.cardRows {
+  border-top: 1px solid var(--line);
+  animation: listPageIn 260ms ease-out both;
+}
+@keyframes listPageIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cardRows {
+    animation: none;
+  }
+}
 .cardRow {
+  display: grid;
+  grid-template-columns: 7px minmax(0, 1fr) 110px 110px 132px 130px;
+  align-items: center;
+  gap: 14px;
   min-height: 58px;
   border-bottom: 1px solid var(--line);
   font-size: 11px;
 }
 .cardRow strong {
-  flex: 1;
+  min-width: 0;
 }
 .cardRow > span:nth-child(3),
-.cardRow small {
+.cardRow small,
+.alertSetting {
   color: var(--muted);
   font:
     10px var(--font-dm-mono),
     monospace;
 }
+.alertSetting {
+  min-width: 132px;
+}
 .cardRow small {
   width: 110px;
   text-transform: capitalize;
+}
+.rowActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 14px;
 }
 .statusGood,
 .statusWarn {
@@ -178,6 +301,40 @@
 }
 .cardFooter span {
   color: var(--ink);
+}
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding-top: 17px;
+  color: var(--muted);
+  font:
+    10px var(--font-dm-mono),
+    monospace;
+}
+.paginationActions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.paginationActions button {
+  padding: 7px 10px;
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  background: transparent;
+  color: var(--ink);
+  cursor: pointer;
+  font: inherit;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+.paginationActions button:hover:not(:disabled) {
+  border-color: var(--teal-dark);
+  background: var(--teal-pale);
+}
+.paginationActions button:disabled {
+  color: #aaa9a1;
+  cursor: not-allowed;
 }
 .importSection {
   max-width: 1120px;
@@ -220,6 +377,28 @@
     14px var(--font-dm-mono),
     monospace;
 }
+.importForm input[type="text"] {
+  min-height: 48px;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 0;
+  background: white;
+  color: var(--ink);
+  font:
+    14px var(--font-dm-mono),
+    monospace;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.importForm input[type="text"]:focus,
+.importForm textarea:focus {
+  border-color: var(--teal-dark);
+  box-shadow: 0 0 0 3px var(--teal-pale);
+}
+.importForm input[type="text"]::placeholder,
+.importForm textarea::placeholder {
+  color: #a2a29a;
+}
 .importForm button,
 .signOut button {
   display: flex;
@@ -237,6 +416,11 @@
   text-align: left;
   transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
 }
+.importForm button {
+  height: 48px;
+  padding-top: 0;
+  padding-bottom: 0;
+}
 .importForm button:hover {
   background: var(--rust);
 }
@@ -245,12 +429,14 @@
   line-height: 1;
 }
 .notice {
-  grid-column: 2;
   margin-top: -16px;
   padding: 12px 14px;
   background: var(--teal-pale);
   color: var(--teal-dark);
   font-size: 12px;
+}
+.workspaceHeading .headingNotice {
+  margin-top: 32px;
 }
 .signOut {
   max-width: 1120px;
@@ -283,15 +469,90 @@
   .dashboardCard {
     padding: 18px;
   }
+  .listControls {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 14px;
+    padding: 20px 0 24px;
+  }
+  .searchField {
+    max-width: none;
+  }
+  .pageSizeField {
+    margin-left: 0;
+  }
+  .sortField {
+    margin-left: 0;
+  }
+  .searchField input,
+  .sortField select,
+  .pageSizeField select {
+    width: 100%;
+    min-height: 42px;
+    font-size: 12px;
+  }
+  .pagination {
+    align-items: flex-start;
+    flex-direction: column;
+    padding-top: 18px;
+  }
+  .paginationActions {
+    width: 100%;
+    justify-content: space-between;
+  }
+  .paginationActions button {
+    min-width: 86px;
+    min-height: 38px;
+  }
+  .listHeader {
+    display: none;
+  }
+  .healthMetric > span {
+    font-size: 52px;
+  }
+  .health .healthMetric > span {
+    font-size: 52px;
+  }
   .warning {
     margin: 0 -18px;
     padding: 0 18px;
   }
   .cardRow {
-    flex-wrap: wrap;
+    grid-template-columns: 7px minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 8px 10px;
+    min-height: 0;
+    padding: 14px 0;
   }
-  .cardRow small {
+  .cardRow > strong {
+    grid-column: 2;
+    grid-row: 1;
+    overflow-wrap: anywhere;
+  }
+  .cardRow > span:nth-child(3) {
+    grid-column: 2 / -1;
+    grid-row: 2;
+    overflow-wrap: anywhere;
+  }
+  .cardRow > small {
+    grid-column: 3;
+    grid-row: 1;
     width: auto;
+    text-align: right;
+  }
+  .cardRow .alertSetting {
+    grid-column: 2 / -1;
+    grid-row: 3;
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+  .rowActions {
+    grid-column: 2 / -1;
+    grid-row: 4;
+    justify-content: flex-start;
+    gap: 18px;
+    padding-top: 8px;
+    border-top: 1px solid var(--line);
   }
   .importSection {
     display: block;
