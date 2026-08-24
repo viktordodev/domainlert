@@ -193,7 +193,7 @@
   border: 1px solid var(--line);
   border-radius: 2px;
   background: white;
-  color: var(--ink);
+  color: #1c1d19;
   font: 11px var(--font-manrope), sans-serif;
   outline: none;
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
