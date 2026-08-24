@@ -110,16 +110,24 @@
   font-size: 11px;
 }
 .healthRing {
+  position: relative;
+  isolation: isolate;
   display: grid;
   width: 75px;
   height: 75px;
   place-items: center;
-  border: 7px solid var(--teal);
-  border-left-color: var(--line);
   border-radius: 50%;
   font:
     12px var(--font-dm-mono),
     monospace;
+}
+.healthRing::before {
+  position: absolute;
+  inset: 7px;
+  z-index: -1;
+  border-radius: 50%;
+  background: var(--paper);
+  content: "";
 }
 .cardRows {
   border-top: 1px solid var(--line);
