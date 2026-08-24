@@ -32,6 +32,21 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="en"
       className={`${manrope.variable} ${playfair.variable} ${dmMono.variable}`}
     >
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(() => {
+  const storageKey = "domainlert-theme";
+  const root = document.documentElement;
+  const saved = localStorage.getItem(storageKey);
+  const system = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+  const theme = saved === "dark" || saved === "light" ? saved : system;
+  root.dataset.theme = theme;
+  root.style.colorScheme = theme;
+})();`,
+          }}
+        />
+      </head>
       <body>
         <div className="siteShell">
           <Header />

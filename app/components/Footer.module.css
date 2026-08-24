@@ -3,5 +3,6 @@
 .footer p { margin-top: 18px; color: var(--muted); font-size: 12px; }
 .links { display: flex; gap: 20px; font-size: 12px; font-weight: 700; }
 .links a:hover { color: var(--rust); }
+.meta { display: grid; justify-items: end; gap: 14px; }
 .footer small { color: var(--muted); font-size: 10px; }
-@media (max-width: 760px) { .footer { padding: 50px 20px 25px; grid-template-columns: 1fr; align-items: start; } .links { flex-wrap: wrap; } }
+@media (max-width: 760px) { .footer { padding: 50px 20px 25px; grid-template-columns: 1fr; align-items: start; } .links { flex-wrap: wrap; } .meta { justify-items: start; } }

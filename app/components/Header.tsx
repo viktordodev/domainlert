@@ -4,6 +4,7 @@ import { createClient } from "@/utils/supabase/server";
 import { signOut } from "../(auth)/actions";
 import { ClickOutsideDetails } from "./ClickOutsideDetails";
 import { Logo } from "./Logo";
+import { ThemeToggle } from "./ThemeToggle";
 import styles from "./Header.module.css";
 
 const products = [
@@ -42,6 +43,7 @@ export async function Header() {
         <Link href="/#pricing">Pricing</Link>
       </nav>
       <div className={styles.actions}>
+        <ThemeToggle />
         {user ? <ClickOutsideDetails className={styles.accountMenu}>
           <summary aria-label="Open account menu" title="Account menu">
             <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.5" /><path d="M5.5 20c.8-3.5 3-5.5 6.5-5.5s5.7 2 6.5 5.5" /></svg>
@@ -57,18 +59,21 @@ export async function Header() {
           <Link className={styles.cta} href="/signup">{ctaLabel} <span aria-hidden="true">↗</span></Link>
         </>}
       </div>
-      <ClickOutsideDetails className={styles.mobileMenu} closeOnLinkClick>
-        <summary aria-label="Open navigation"><span></span><span></span></summary>
-        <nav aria-label="Mobile navigation">
-          <Link href="/#product">Product</Link>
-          <Link href="/#solutions">Solutions</Link>
-          <Link href="/#resources">Resources</Link>
-          <Link href="/#pricing">Pricing</Link>
-          <Link href={accountHref}>{user ? "Dashboard" : accountLabel}</Link>
-          {user && <Link href="/profile">Profile</Link>}
-          {user && <form action={signOut}><button type="submit">Log out</button></form>}
-        </nav>
-      </ClickOutsideDetails>
+      <div className={styles.mobileControls}>
+        <div className={styles.mobileHeaderThemeToggle}><ThemeToggle compact /></div>
+        <ClickOutsideDetails className={styles.mobileMenu} closeOnLinkClick>
+          <summary aria-label="Open navigation"><span></span><span></span></summary>
+          <nav aria-label="Mobile navigation">
+            <Link href="/#product">Product</Link>
+            <Link href="/#solutions">Solutions</Link>
+            <Link href="/#resources">Resources</Link>
+            <Link href="/#pricing">Pricing</Link>
+            <Link href={accountHref}>{user ? "Dashboard" : accountLabel}</Link>
+            {user && <Link href="/profile">Profile</Link>}
+            {user && <form action={signOut}><button type="submit">Log out</button></form>}
+          </nav>
+        </ClickOutsideDetails>
+      </div>
     </header>
   );
 }
