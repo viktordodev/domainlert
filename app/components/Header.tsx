@@ -57,7 +57,7 @@ export async function Header() {
           <Link className={styles.cta} href="/signup">{ctaLabel} <span aria-hidden="true">↗</span></Link>
         </>}
       </div>
-      <details className={styles.mobileMenu}>
+      <ClickOutsideDetails className={styles.mobileMenu} closeOnLinkClick>
         <summary aria-label="Open navigation"><span></span><span></span></summary>
         <nav aria-label="Mobile navigation">
           <Link href="/#product">Product</Link>
@@ -68,7 +68,7 @@ export async function Header() {
           {user && <Link href="/profile">Profile</Link>}
           {user && <form action={signOut}><button type="submit">Log out</button></form>}
         </nav>
-      </details>
+      </ClickOutsideDetails>
     </header>
   );
 }

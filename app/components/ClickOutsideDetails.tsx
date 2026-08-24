@@ -5,9 +5,10 @@ import { useEffect, useRef } from "react";
 type ClickOutsideDetailsProps = {
   className: string;
   children: React.ReactNode;
+  closeOnLinkClick?: boolean;
 };
 
-export function ClickOutsideDetails({ className, children }: ClickOutsideDetailsProps) {
+export function ClickOutsideDetails({ className, children, closeOnLinkClick = false }: ClickOutsideDetailsProps) {
   const detailsRef = useRef<HTMLDetailsElement>(null);
 
   useEffect(() => {
@@ -23,5 +24,11 @@ export function ClickOutsideDetails({ className, children }: ClickOutsideDetails
     return () => document.removeEventListener("pointerdown", closeOnOutsidePointer);
   }, []);
 
-  return <details ref={detailsRef} className={className}>{children}</details>;
+  function closeOnLinkClickHandler(event: React.MouseEvent<HTMLDetailsElement>) {
+    if (closeOnLinkClick && event.target instanceof Element && event.target.closest("a")) {
+      detailsRef.current?.removeAttribute("open");
+    }
+  }
+
+  return <details ref={detailsRef} className={className} onClick={closeOnLinkClickHandler}>{children}</details>;
 }
