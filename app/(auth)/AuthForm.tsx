@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { Logo } from "../components/Logo";
 import { SubmitButton } from "./SubmitButton";
 import styles from "./auth.module.css";
 
@@ -16,9 +15,6 @@ export function AuthForm({ action, mode, error, message }: AuthFormProps) {
   return (
     <main className={styles.shell}>
       <div className={styles.panel}>
-        <Link className={styles.back} href="/" aria-label="DomainLert home">
-          <Logo animated />
-        </Link>
         <p className={styles.kicker}>{isLogin ? "Welcome back" : "Start monitoring"}</p>
         <h1>{isLogin ? "Keep watch." : "Make renewals boring."}</h1>
         <p className={styles.intro}>
@@ -40,6 +36,8 @@ export function AuthForm({ action, mode, error, message }: AuthFormProps) {
             pendingMessage={isLogin ? "Signing you in. Please wait..." : "Creating your account. Please wait..."}
           />
         </form>
+
+        {isLogin && <p className={styles.forgot}><Link href="/forgot-password">Forgot your password?</Link></p>}
 
         <p className={styles.switch}>
           {isLogin ? "New to DomainLert?" : "Already have an account?"}{" "}
