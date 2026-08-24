@@ -86,7 +86,7 @@ export function DomainList({ domains, deleteAction, alertsAction, defaultThresho
           </select>
         </label>
         <label className={styles.pageSizeField} htmlFor="domainPageSize">
-          <span>Show</span>
+          <span>Show per page</span>
           <select id="domainPageSize" value={pageSize} onChange={(event) => { setPageSize(Number(event.target.value) as PageSize); setPage(1); }}>
             <option value="10">10</option>
             <option value="25">25</option>

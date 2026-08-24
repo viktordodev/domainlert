@@ -179,6 +179,12 @@
 .pageSizeField {
   margin-left: 0;
 }
+
+:global(html[data-theme="dark"]) .sortField span,
+:global(html[data-theme="dark"]) .pageSizeField span {
+  color: var(--ink);
+}
+
 .searchField input,
 .sortField select,
 .pageSizeField select {
