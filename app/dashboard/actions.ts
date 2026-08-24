@@ -7,7 +7,7 @@ import { createClient } from "@/utils/supabase/server";
 const domainPattern = /^(?=.{1,253}$)(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]{2,63}$/i;
 const uuidPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
-function result(message: string) {
+function result(message: string): never {
   redirect(`/dashboard?import=${encodeURIComponent(message)}`);
 }
 
