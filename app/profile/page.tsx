@@ -2,7 +2,7 @@ import Link from "next/link";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { createClient, getCurrentUser } from "@/utils/supabase/server";
-import { updateEmail, updatePassword, updateProfile } from "./actions";
+import { sendTestEmail, updateEmail, updatePassword, updateProfile } from "./actions";
 import styles from "./profile.module.css";
 
 type ProfilePageProps = {
@@ -91,6 +91,18 @@ export default async function ProfilePage({ searchParams }: ProfilePageProps) {
               <label htmlFor="passwordConfirmation">Confirm new password</label>
               <input id="passwordConfirmation" name="passwordConfirmation" type="password" minLength={8} autoComplete="new-password" required />
               <button type="submit">Change password <span aria-hidden="true">↗</span></button>
+            </form>
+          </section>
+
+          <section className={styles.setting} aria-labelledby="test-email">
+            <div className={styles.settingIntro}>
+              <p className={styles.sectionNumber}>04</p>
+              <h2 id="test-email">Test email delivery</h2>
+              <p>Send yourself a sample expiry alert to confirm SMTP is configured correctly and see how the email looks.</p>
+            </div>
+            <form action={sendTestEmail} className={styles.form}>
+              <p className={styles.formNote}>Sends a mock &ldquo;example.com expires in 14 days&rdquo; alert to {user.email}.</p>
+              <button type="submit">Send test email <span aria-hidden="true">↗</span></button>
             </form>
           </section>
         </div>

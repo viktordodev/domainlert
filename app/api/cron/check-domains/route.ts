@@ -64,18 +64,23 @@ async function loadUserEmails(supabase: SupabaseServiceClient): Promise<Map<stri
   return emailByUserId;
 }
 
-async function loadDefaultThresholds(supabase: SupabaseServiceClient, userIds: string[]): Promise<Map<string, number[]>> {
+type OwnerProfile = { thresholds: number[] | null; ownerName: string | null };
+
+async function loadOwnerProfiles(supabase: SupabaseServiceClient, userIds: string[]): Promise<Map<string, OwnerProfile>> {
   const uniqueIds = [...new Set(userIds)];
   if (uniqueIds.length === 0) return new Map();
 
-  const { data } = await supabase.from("profiles").select("id, alert_thresholds").in("id", uniqueIds);
-  const thresholdsByUserId = new Map<string, number[]>();
+  const { data } = await supabase.from("profiles").select("id, alert_thresholds, full_name, agency_name").in("id", uniqueIds);
+  const profileByUserId = new Map<string, OwnerProfile>();
 
   for (const profile of data ?? []) {
-    if (profile.alert_thresholds?.length) thresholdsByUserId.set(profile.id, profile.alert_thresholds);
+    profileByUserId.set(profile.id, {
+      thresholds: profile.alert_thresholds?.length ? profile.alert_thresholds : null,
+      ownerName: profile.agency_name || profile.full_name || null,
+    });
   }
 
-  return thresholdsByUserId;
+  return profileByUserId;
 }
 
 async function sendPendingAlerts(
@@ -83,14 +88,13 @@ async function sendPendingAlerts(
   domain: { id: string; domain_name: string; user_id: string; alert_thresholds: number[] | null; alert_recipients: string[] | null },
   expiryDate: string,
   emailByUserId: Map<string, string>,
-  defaultThresholdsByUserId: Map<string, number[]>
+  ownerProfilesByUserId: Map<string, OwnerProfile>
 ) {
   const daysRemaining = daysUntil(expiryDate);
-  const email = emailByUserId.get(domain.user_id) ?? null;
-  const recipients = domain.alert_recipients?.length ? domain.alert_recipients : email ? [email] : [];
-  const thresholds = domain.alert_thresholds?.length
-    ? domain.alert_thresholds
-    : defaultThresholdsByUserId.get(domain.user_id) ?? DEFAULT_ALERT_THRESHOLDS;
+  const ownerEmail = emailByUserId.get(domain.user_id) ?? null;
+  const ownerProfile = ownerProfilesByUserId.get(domain.user_id);
+  const recipients = domain.alert_recipients?.length ? domain.alert_recipients : ownerEmail ? [ownerEmail] : [];
+  const thresholds = domain.alert_thresholds?.length ? domain.alert_thresholds : ownerProfile?.thresholds ?? DEFAULT_ALERT_THRESHOLDS;
 
   if (recipients.length === 0) return;
 
@@ -104,7 +108,14 @@ async function sendPendingAlerts(
     // A unique constraint violation means this threshold was already alerted on — skip silently.
     if (insertError) continue;
 
-    await sendExpiryAlertEmail({ to: recipients.join(", "), domainName: domain.domain_name, daysRemaining, expiryDate });
+    await sendExpiryAlertEmail({
+      to: recipients.join(", "),
+      domainName: domain.domain_name,
+      daysRemaining,
+      expiryDate,
+      ownerName: ownerProfile?.ownerName ?? null,
+      ownerEmail,
+    });
   }
 }
 
@@ -125,9 +136,9 @@ export async function GET(request: Request) {
       return NextResponse.json({ error: "Could not load domains", detail: error.message }, { status: 500 });
     }
 
-    const [emailByUserId, defaultThresholdsByUserId] = await Promise.all([
+    const [emailByUserId, ownerProfilesByUserId] = await Promise.all([
       loadUserEmails(supabase),
-      loadDefaultThresholds(supabase, (domains ?? []).map((domain) => domain.user_id)),
+      loadOwnerProfiles(supabase, (domains ?? []).map((domain) => domain.user_id)),
     ]);
 
     let checked = 0;
@@ -152,7 +163,7 @@ export async function GET(request: Request) {
       if (result.status === "check_failed") {
         failed += 1;
       } else if (result.expiryDate) {
-        await sendPendingAlerts(supabase, domain, result.expiryDate, emailByUserId, defaultThresholdsByUserId);
+        await sendPendingAlerts(supabase, domain, result.expiryDate, emailByUserId, ownerProfilesByUserId);
       }
 
       await supabase.from("domains").update(update).eq("id", domain.id);

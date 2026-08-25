@@ -4,6 +4,7 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { createClient } from "@/utils/supabase/server";
 import { isEmail } from "@/utils/validation";
+import { sendExpiryAlertEmail } from "@/utils/email";
 
 function valueFrom(formData: FormData, key: string) {
   const value = formData.get(key);
@@ -129,4 +130,42 @@ export async function updatePassword(formData: FormData) {
   }
 
   result("Your password has been changed.");
+}
+
+export async function sendTestEmail() {
+  const { supabase, user } = await getUser();
+
+  if (!user.email) {
+    result("Your account does not have an email address to send to.");
+  }
+
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("full_name, agency_name")
+    .eq("id", user.id)
+    .maybeSingle();
+  const ownerName = profile?.agency_name || profile?.full_name || null;
+
+  let sendError: string | null = null;
+
+  try {
+    await sendExpiryAlertEmail({
+      to: user.email,
+      domainName: "example.com",
+      daysRemaining: 14,
+      expiryDate: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10),
+      ownerName,
+      ownerEmail: user.email,
+    });
+  } catch (err) {
+    // Caught (rather than left to throw) so a bad SMTP config surfaces as a readable notice
+    // here instead of an unhandled error — the whole point of this button is to debug that config.
+    sendError = (err instanceof Error ? err.message : "Unknown error").slice(0, 300);
+  }
+
+  if (sendError) {
+    result(`We could not send a test email: ${sendError}`);
+  }
+
+  result(`Test email sent to ${user.email}. Check your inbox (and spam folder).`);
 }
