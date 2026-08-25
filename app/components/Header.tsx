@@ -75,10 +75,10 @@ export function Header() {
         </div>
       </ClickOutsideDetails>
       <nav className={styles.nav} aria-label="Main navigation">
-        <Link href="/#product">Product</Link>
+        <Link href="/features">Product</Link>
         <Link href="/#solutions">Solutions</Link>
         <Link href="/#resources">Resources</Link>
-        <Link href="/#pricing">Pricing</Link>
+        <Link href="/pricing">Pricing</Link>
       </nav>
       <div className={styles.actions}>
         <ThemeToggle />
@@ -91,10 +91,10 @@ export function Header() {
         <ClickOutsideDetails className={styles.mobileMenu} closeOnLinkClick>
           <summary aria-label="Open navigation"><span></span><span></span></summary>
           <nav aria-label="Mobile navigation">
-            <Link href="/#product">Product</Link>
+            <Link href="/features">Product</Link>
             <Link href="/#solutions">Solutions</Link>
             <Link href="/#resources">Resources</Link>
-            <Link href="/#pricing">Pricing</Link>
+            <Link href="/pricing">Pricing</Link>
             <Suspense fallback={<Link href="/login">Log in</Link>}>
               <MobileAccountLinks />
             </Suspense>

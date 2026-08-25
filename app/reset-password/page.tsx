@@ -1,16 +1,19 @@
 import Link from "next/link";
 import { resetPassword } from "../(auth)/actions";
 import { SubmitButton } from "../(auth)/SubmitButton";
+import { pageMetadata } from "@/utils/seo";
 import styles from "../(auth)/auth.module.css";
 
 type ResetPasswordPageProps = {
   searchParams: Promise<{ error?: string }>;
 };
 
-export const metadata = {
-  title: "Choose a new password | DomainLert",
+export const metadata = pageMetadata({
+  path: "/reset-password",
+  title: "Choose a new password",
   description: "Choose a new password for your DomainLert account.",
-};
+  index: false,
+});
 
 // See app/(auth)/login/page.tsx for why this opts out of static-shell prerendering.
 export const instant = false;

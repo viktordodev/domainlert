@@ -1,10 +1,12 @@
 import Link from "next/link";
+import { pageMetadata } from "@/utils/seo";
 import styles from "../legal.module.css";
 
-export const metadata = {
-  title: "Privacy Policy | DomainLert",
-  description: "How DomainLert collects and uses information.",
-};
+export const metadata = pageMetadata({
+  path: "/privacy",
+  title: "Privacy Policy",
+  description: "How DomainLert collects, uses, and protects the information behind your domain monitoring account.",
+});
 
 export default function PrivacyPage() {
   return (
@@ -46,7 +48,7 @@ export default function PrivacyPage() {
           </section>
           <section className={styles.section}>
             <h2>Changes and contact</h2>
-            <p>We may update this policy when our practices or legal obligations change. The effective date above shows when it was last revised. Questions about privacy can be raised through the contact details provided with your DomainLert account.</p>
+            <p>We may update this policy when our practices or legal obligations change. The effective date above shows when it was last revised. Questions about privacy can be raised through our <Link href="/contact">contact page</Link>.</p>
             <p><Link href="/">Return to DomainLert</Link></p>
           </section>
         </div>

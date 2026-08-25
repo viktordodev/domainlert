@@ -1,10 +1,12 @@
 import Link from "next/link";
+import { pageMetadata } from "@/utils/seo";
 import styles from "../legal.module.css";
 
-export const metadata = {
-  title: "Terms of Service | DomainLert",
-  description: "The terms that apply when you use DomainLert.",
-};
+export const metadata = pageMetadata({
+  path: "/terms",
+  title: "Terms of Service",
+  description: "The terms that apply when you use DomainLert to monitor and get alerted about domain expiry.",
+});
 
 export default function TermsPage() {
   return (
@@ -40,7 +42,7 @@ export default function TermsPage() {
           </section>
           <section className={styles.section}>
             <h2>Changes and contact</h2>
-            <p>We may update these terms as the service changes. Continued use after an update means you accept the revised terms. Questions about these terms can be raised through the contact details provided with your DomainLert account.</p>
+            <p>We may update these terms as the service changes. Continued use after an update means you accept the revised terms. Questions about these terms can be raised through our <Link href="/contact">contact page</Link>.</p>
             <p><Link href="/">Return to DomainLert</Link></p>
           </section>
         </div>
