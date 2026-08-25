@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
-import { createClient, getCurrentUser } from "@/utils/supabase/server";
+import { createClient, getUser } from "@/utils/supabase/server";
 import { DEFAULT_ALERT_THRESHOLDS } from "@/utils/alert-thresholds";
 import { signOut } from "../(auth)/actions";
 import { deleteDomain, importDomains, updateDomainAlertThresholds, updateGlobalAlertThresholds } from "./actions";
@@ -12,7 +12,7 @@ type DashboardPageProps = {
 };
 
 export default async function DashboardPage({ searchParams }: DashboardPageProps) {
-  const user = await getCurrentUser();
+  const user = await getUser();
 
   if (!user) {
     redirect("/login");

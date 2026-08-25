@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Suspense } from "react";
 import type { Metadata } from "next";
+import { Accordion } from "./components/Accordion";
 import { AuthCta, AuthCtaFallback } from "./components/AuthCta";
 import { JsonLd } from "./components/JsonLd";
 import styles from "./page.module.css";
@@ -90,7 +91,7 @@ export default function Home() {
             <p className={styles.moreLink}><Link className={styles.textLink} href="/pricing">Full pricing details <span aria-hidden="true">→</span></Link></p>
           </div>
         </section>
-        <section className={styles.faq} id="resources"><div><p className={styles.kicker}>Questions, answered</p><h2>Good to know.</h2></div><div>{faqItems.map(({ question, answer }) => <details className={styles.faqItem} key={question}><summary>{question}<span>+</span></summary><p>{answer}</p></details>)}</div></section>
+        <section className={styles.faq} id="resources"><div><p className={styles.kicker}>Questions, answered</p><h2>Good to know.</h2></div><div>{faqItems.map(({ question, answer }) => <Accordion key={question} question={question} answer={answer} />)}</div></section>
         <section className={styles.finalCta} id="start"><p className={styles.kicker}>Make the next renewal boring</p><h2>Know before<br /><em>you have to know.</em></h2><Suspense fallback={<AuthCtaFallback className={styles.primaryButton} signedOutLabel="Start monitoring" />}><AuthCta className={styles.primaryButton} signedInLabel="Open your dashboard" signedOutLabel="Start monitoring" /></Suspense></section>
       </main>
     </div>

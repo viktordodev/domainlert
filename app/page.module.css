@@ -391,37 +391,6 @@
   margin-top: 30px;
   font-size: 60px;
 }
-.faqItem {
-  border-top: 1px solid var(--line);
-}
-.faqItem:last-child {
-  border-bottom: 1px solid var(--line);
-}
-.faqItem summary {
-  display: flex;
-  justify-content: space-between;
-  gap: 20px;
-  padding: 22px 0;
-  cursor: pointer;
-  font-size: 13px;
-  font-weight: 800;
-  list-style: none;
-}
-.faqItem summary::-webkit-details-marker {
-  display: none;
-}
-.faqItem summary span {
-  color: var(--rust);
-  font-size: 18px;
-  font-weight: 400;
-}
-.faqItem p {
-  max-width: 520px;
-  padding: 0 40px 24px 0;
-  color: var(--muted);
-  font-size: 13px;
-  line-height: 1.65;
-}
 .finalCta {
   padding: 115px 32px 130px;
   background: var(--cream);

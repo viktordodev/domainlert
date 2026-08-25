@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { createClient, getCurrentUser } from "@/utils/supabase/server";
+import { createClient, getUser } from "@/utils/supabase/server";
 import { sendTestEmail, updateEmail, updatePassword, updateProfile } from "./actions";
 import styles from "./profile.module.css";
 
@@ -10,7 +10,7 @@ type ProfilePageProps = {
 };
 
 export default async function ProfilePage({ searchParams }: ProfilePageProps) {
-  const user = await getCurrentUser();
+  const user = await getUser();
 
   if (!user) {
     redirect("/login?next=/profile");

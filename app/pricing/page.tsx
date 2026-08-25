@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Suspense } from "react";
+import { Accordion } from "../components/Accordion";
 import { AuthCta, AuthCtaFallback } from "../components/AuthCta";
 import { JsonLd } from "../components/JsonLd";
 import { siteUrl } from "@/utils/site";
@@ -109,12 +110,9 @@ export default function PricingPage() {
 
         <section className={styles.section}>
           <h2>Billing questions</h2>
-          <div>
+          <div className={styles.faqList}>
             {billingFaq.map(({ question, answer }) => (
-              <details className={styles.faqItem} key={question}>
-                <summary>{question}<span>+</span></summary>
-                <p>{answer}</p>
-              </details>
+              <Accordion key={question} question={question} answer={answer} />
             ))}
           </div>
         </section>

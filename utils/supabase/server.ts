@@ -30,11 +30,9 @@ export const createClient = (cookieStore: Awaited<ReturnType<typeof cookies>>) =
   );
 };
 
-// Deduplicated per request with React's cache(): every Server Component that calls this
-// during the same render (Header, a page, etc.) shares one Supabase auth round-trip instead
-// of each triggering its own. Swallows errors so an auth-dependent UI fragment (e.g. the
-// header's account menu) can degrade to "signed out" instead of throwing during render.
-export const getCurrentUser = cache(async (): Promise<User | null> => {
+// Swallows errors so an auth-dependent UI fragment (e.g. the header's account menu) can
+// degrade to "signed out" instead of throwing during render.
+export async function getUser(): Promise<User | null> {
   try {
     const supabase = createClient(await cookies());
     const { data: { user } } = await supabase.auth.getUser();
@@ -42,4 +40,13 @@ export const getCurrentUser = cache(async (): Promise<User | null> => {
   } catch {
     return null;
   }
-});
+}
+
+// Deduplicated per request with React's cache() — for use ONLY inside components that are
+// always rendered behind their own <Suspense> boundary (Header's account menu, AuthCta). Do
+// NOT call this directly at the top of a page/layout component: sharing one cache()-memoized
+// promise between a Suspense-wrapped consumer and a plain top-level `await` in the same render
+// trips a React invariant ("cleaning up async info that was not on the parent Suspense
+// boundary") under Cache Components. Pages that need the user directly (to gate access with
+// redirect(), for example) should call getUser() above instead.
+export const getCurrentUser = cache(getUser);
