@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
-import { createClient } from "@/utils/supabase/server";
+import { createClient, getCurrentUser } from "@/utils/supabase/server";
 import { DEFAULT_ALERT_THRESHOLDS } from "@/utils/alert-thresholds";
 import { signOut } from "../(auth)/actions";
 import { deleteDomain, importDomains, updateDomainAlertThresholds, updateGlobalAlertThresholds } from "./actions";
@@ -12,35 +12,31 @@ type DashboardPageProps = {
 };
 
 export default async function DashboardPage({ searchParams }: DashboardPageProps) {
-  const supabase = createClient(await cookies());
-  const { data: { user } } = await supabase.auth.getUser();
+  const user = await getCurrentUser();
 
   if (!user) {
     redirect("/login");
   }
 
+  const supabase = createClient(await cookies());
   const params = await searchParams;
-  const { data: domainsWithRecipients, error: recipientsQueryError } = await supabase
-    .from("domains")
-    .select("id, domain_name, status, expiry_date, alert_thresholds, alert_recipients")
-    .order("domain_name");
-  const { data: legacyDomains } = recipientsQueryError
-    ? await supabase
+  const [{ data: domains }, { data: profile }] = await Promise.all([
+    supabase
       .from("domains")
-      .select("id, domain_name, status, expiry_date, alert_thresholds")
-      .order("domain_name")
-    : { data: null };
-  const domains = domainsWithRecipients ?? legacyDomains?.map((domain) => ({ ...domain, alert_recipients: null })) ?? [];
+      .select("id, domain_name, status, expiry_date, alert_thresholds, alert_recipients")
+      .order("domain_name"),
+    supabase
+      .from("profiles")
+      .select("full_name, agency_name, alert_thresholds")
+      .eq("id", user.id)
+      .maybeSingle(),
+  ]);
   const domainCount = domains?.length ?? 0;
   const healthyCount = domains?.filter((domain) => domain.status === "active").length ?? 0;
   const warningCount = domains?.filter((domain) => domain.status === "expiring_soon").length ?? 0;
   const healthPercent = domainCount ? Math.round((healthyCount / domainCount) * 100) : 0;
-  const agencyName = typeof user.user_metadata.agency_name === "string" ? user.user_metadata.agency_name : "";
-  const fullName = typeof user.user_metadata.full_name === "string" ? user.user_metadata.full_name : "";
-  const accountName = agencyName || fullName;
-  const defaultAlertThresholds = Array.isArray(user.user_metadata.alert_thresholds) && user.user_metadata.alert_thresholds.length > 0
-    ? user.user_metadata.alert_thresholds
-    : DEFAULT_ALERT_THRESHOLDS;
+  const accountName = profile?.agency_name || profile?.full_name || "";
+  const defaultAlertThresholds = profile?.alert_thresholds?.length ? profile.alert_thresholds : DEFAULT_ALERT_THRESHOLDS;
 
   return (
     <main className={styles.page}>

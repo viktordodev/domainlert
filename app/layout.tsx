@@ -31,6 +31,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html
       lang="en"
       className={`${manrope.variable} ${playfair.variable} ${dmMono.variable}`}
+      suppressHydrationWarning
     >
       <head>
         <script

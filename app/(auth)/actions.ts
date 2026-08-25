@@ -3,6 +3,7 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { createClient } from "@/utils/supabase/server";
+import { isEmail } from "@/utils/validation";
 
 function valueFrom(formData: FormData, key: string) {
   const value = formData.get(key);
@@ -34,7 +35,7 @@ export async function signIn(formData: FormData) {
 export async function requestPasswordReset(formData: FormData) {
   const email = valueFrom(formData, "email").toLowerCase();
 
-  if (!/^\S+@\S+\.\S+$/.test(email)) {
+  if (!isEmail(email)) {
     authError("/forgot-password", "Enter a valid email address.");
   }
 

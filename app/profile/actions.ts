@@ -3,6 +3,7 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { createClient } from "@/utils/supabase/server";
+import { isEmail } from "@/utils/validation";
 
 function valueFrom(formData: FormData, key: string) {
   const value = formData.get(key);
@@ -48,15 +49,14 @@ export async function updateProfile(formData: FormData) {
     result("Enter a complete website address, including https://.");
   }
 
-  const { supabase } = await getUser();
-  const { error } = await supabase.auth.updateUser({
-    data: {
-      full_name: fullName,
-      job_title: jobTitle,
-      agency_name: agencyName,
-      phone,
-      website,
-    },
+  const { supabase, user } = await getUser();
+  const { error } = await supabase.from("profiles").upsert({
+    id: user.id,
+    full_name: fullName,
+    job_title: jobTitle,
+    agency_name: agencyName,
+    phone,
+    website,
   });
 
   if (error) {
@@ -70,7 +70,7 @@ export async function updateEmail(formData: FormData) {
   const email = valueFrom(formData, "email").toLowerCase();
   const { supabase, user } = await getUser();
 
-  if (!/^\S+@\S+\.\S+$/.test(email)) {
+  if (!isEmail(email)) {
     result("Enter a valid email address.");
   }
 

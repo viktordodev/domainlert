@@ -248,6 +248,45 @@
     animation: none;
   }
 }
+.skeletonLine {
+  display: inline-block;
+  height: 12px;
+  border-radius: 2px;
+  background: var(--line);
+  animation: skeletonPulse 1.4s ease-in-out infinite;
+}
+.skeletonRing {
+  background: var(--line);
+  animation: skeletonPulse 1.4s ease-in-out infinite;
+}
+.skeletonRows {
+  display: grid;
+  gap: 12px;
+  padding: 23px 0;
+  border-top: 1px solid var(--line);
+}
+.skeletonRow {
+  height: 44px;
+  border-radius: 2px;
+  background: var(--line);
+  animation: skeletonPulse 1.4s ease-in-out infinite;
+}
+@keyframes skeletonPulse {
+  0%,
+  100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .skeletonLine,
+  .skeletonRing,
+  .skeletonRow {
+    animation: none;
+  }
+}
 .cardRow {
   display: grid;
   grid-template-columns: 7px minmax(0, 1fr) 110px 110px 132px 130px;

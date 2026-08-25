@@ -3,9 +3,9 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { createClient } from "@/utils/supabase/server";
+import { DOMAIN_PATTERN, UUID_PATTERN, isEmail, parseRecipients, validateThresholds } from "@/utils/validation";
 
-const domainPattern = /^(?=.{1,253}$)(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]{2,63}$/i;
-const uuidPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+const DOMAIN_LIMIT_ERRCODE = "DL001";
 
 function result(message: string): never {
   redirect(`/dashboard?import=${encodeURIComponent(message)}`);
@@ -13,27 +13,6 @@ function result(message: string): never {
 
 function alertsResult(message: string): never {
   redirect(`/dashboard?alerts=${encodeURIComponent(message)}`);
-}
-
-function parseThresholds(raw: string): number[] {
-  return [...new Set(
-    raw.split(",").map((part) => part.trim()).filter((part) => /^\d{1,3}$/.test(part)).map(Number).filter((n) => n > 0 && n <= 365)
-  )].sort((a, b) => b - a);
-}
-
-function hasInvalidThreshold(raw: string): boolean {
-  return raw.split(",").some((part) => {
-    const value = part.trim();
-    return value.length === 0 || !/^\d{1,3}$/.test(value) || Number(value) < 1 || Number(value) > 365;
-  });
-}
-
-function parseRecipients(raw: string): string[] {
-  return [...new Set(raw.split(/[\s,;]+/).map((email) => email.trim().toLowerCase()).filter(Boolean))];
-}
-
-function isEmail(value: string): boolean {
-  return value.length <= 254 && /^\S+@\S+\.\S+$/.test(value);
 }
 
 export async function importDomains(formData: FormData) {
@@ -51,8 +30,8 @@ export async function importDomains(formData: FormData) {
 
   const rawDomains = rawValue.split(/[\s,;]+/);
   const domains = [...new Set(rawDomains.map((domain) => domain.toLowerCase().replace(/^www\./, "")).filter(Boolean))];
-  const invalid = domains.filter((domain) => !domainPattern.test(domain));
-  const valid = domains.filter((domain) => domainPattern.test(domain));
+  const invalid = domains.filter((domain) => !DOMAIN_PATTERN.test(domain));
+  const valid = domains.filter((domain) => DOMAIN_PATTERN.test(domain));
 
   if (valid.length === 0) {
     result("Enter at least one valid domain.");
@@ -70,7 +49,7 @@ export async function importDomains(formData: FormData) {
       newDomains.map((domain_name) => ({ domain_name, user_id: user.id }))
     );
 
-    if (error?.message.includes("DOMAIN_LIMIT_REACHED")) {
+    if (error?.code === DOMAIN_LIMIT_ERRCODE) {
       result("Your account has reached the 1,000-domain cap. Contact support to add more.");
     }
 
@@ -86,7 +65,7 @@ export async function importDomains(formData: FormData) {
 export async function deleteDomain(formData: FormData) {
   const domainId = formData.get("domainId");
 
-  if (typeof domainId !== "string" || !uuidPattern.test(domainId)) {
+  if (typeof domainId !== "string" || !UUID_PATTERN.test(domainId)) {
     result("We could not identify that domain.");
   }
 
@@ -113,18 +92,10 @@ export async function deleteDomain(formData: FormData) {
 export async function updateGlobalAlertThresholds(formData: FormData) {
   const rawValue = formData.get("alertThresholds");
   const raw = typeof rawValue === "string" ? rawValue.trim() : "";
-  const thresholds = parseThresholds(raw);
+  const { thresholds, error: thresholdError } = validateThresholds(raw, { maxCount: 10, allowEmpty: false });
 
-  if (thresholds.length === 0) {
-    alertsResult("Enter at least one valid day threshold (1-365), separated by commas.");
-  }
-
-  if (hasInvalidThreshold(raw)) {
-    alertsResult("Use whole-number thresholds from 1 to 365, separated by commas.");
-  }
-
-  if (thresholds.length > 10) {
-    alertsResult("Use 10 or fewer thresholds.");
+  if (thresholdError) {
+    alertsResult(thresholdError);
   }
 
   const supabase = createClient(await cookies());
@@ -134,7 +105,7 @@ export async function updateGlobalAlertThresholds(formData: FormData) {
     redirect("/login");
   }
 
-  const { error } = await supabase.auth.updateUser({ data: { alert_thresholds: thresholds } });
+  const { error } = await supabase.from("profiles").upsert({ id: user.id, alert_thresholds: thresholds });
 
   if (error) {
     alertsResult("We could not update your default alert thresholds. Please try again.");
@@ -146,7 +117,7 @@ export async function updateGlobalAlertThresholds(formData: FormData) {
 export async function updateDomainAlertThresholds(formData: FormData) {
   const domainId = formData.get("domainId");
 
-  if (typeof domainId !== "string" || !uuidPattern.test(domainId)) {
+  if (typeof domainId !== "string" || !UUID_PATTERN.test(domainId)) {
     alertsResult("We could not identify that domain.");
   }
 
@@ -155,7 +126,12 @@ export async function updateDomainAlertThresholds(formData: FormData) {
   if (raw.length > 1_000) {
     alertsResult("Keep alert thresholds to 1,000 characters or fewer.");
   }
-  const thresholds = raw.length === 0 ? null : parseThresholds(raw);
+  const { thresholds, error: thresholdError } = validateThresholds(raw, { maxCount: 5, allowEmpty: true });
+
+  if (thresholdError) {
+    alertsResult(thresholdError);
+  }
+
   const recipientValue = formData.get("alertRecipients");
   const recipientRaw = typeof recipientValue === "string" ? recipientValue.trim() : "";
   if (recipientRaw.length > 2_000) {
@@ -163,18 +139,6 @@ export async function updateDomainAlertThresholds(formData: FormData) {
   }
   const recipientTokens = recipientRaw.length === 0 ? [] : parseRecipients(recipientRaw);
   const recipients = recipientRaw.length === 0 ? null : recipientTokens;
-
-  if (thresholds !== null && thresholds.length === 0) {
-    alertsResult("Enter valid day thresholds (1-365), separated by commas, or leave blank to use your default.");
-  }
-
-  if (thresholds !== null && hasInvalidThreshold(raw)) {
-    alertsResult("Use whole-number thresholds from 1 to 365, separated by commas, or leave blank to use your default.");
-  }
-
-  if (thresholds !== null && thresholds.length > 5) {
-    alertsResult("Use 5 or fewer custom thresholds.");
-  }
 
   if (recipientTokens.some((email) => !isEmail(email))) {
     alertsResult("Enter valid email addresses, separated by commas.");

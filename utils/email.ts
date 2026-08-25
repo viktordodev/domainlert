@@ -1,16 +1,19 @@
 import nodemailer from "nodemailer";
+import { requireEnv } from "@/utils/env";
 
 let transporter: ReturnType<typeof nodemailer.createTransport> | null = null;
 
+// Validated lazily (only when an email is actually sent), not at module load, so importing
+// this file doesn't fail the whole cron run when nothing needs to be emailed yet.
 function getTransporter() {
   if (!transporter) {
     transporter = nodemailer.createTransport({
-      host: process.env.SMTP_HOST,
+      host: requireEnv("SMTP_HOST"),
       port: Number(process.env.SMTP_PORT ?? 587),
       secure: process.env.SMTP_PORT === "465",
       auth: {
-        user: process.env.SMTP_USER,
-        pass: process.env.SMTP_PASS,
+        user: requireEnv("SMTP_USER"),
+        pass: requireEnv("SMTP_PASS"),
       },
     });
   }

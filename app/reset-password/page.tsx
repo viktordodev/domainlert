@@ -12,6 +12,9 @@ export const metadata = {
   description: "Choose a new password for your DomainLert account.",
 };
 
+// See app/(auth)/login/page.tsx for why this opts out of static-shell prerendering.
+export const instant = false;
+
 export default async function ResetPasswordPage({ searchParams }: ResetPasswordPageProps) {
   const params = await searchParams;
 

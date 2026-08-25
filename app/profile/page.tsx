@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { createClient } from "@/utils/supabase/server";
+import { createClient, getCurrentUser } from "@/utils/supabase/server";
 import { updateEmail, updatePassword, updateProfile } from "./actions";
 import styles from "./profile.module.css";
 
@@ -10,19 +10,24 @@ type ProfilePageProps = {
 };
 
 export default async function ProfilePage({ searchParams }: ProfilePageProps) {
-  const supabase = createClient(await cookies());
-  const { data: { user } } = await supabase.auth.getUser();
+  const user = await getCurrentUser();
 
   if (!user) {
     redirect("/login?next=/profile");
   }
 
+  const supabase = createClient(await cookies());
   const params = await searchParams;
-  const fullName = typeof user.user_metadata.full_name === "string" ? user.user_metadata.full_name : "";
-  const jobTitle = typeof user.user_metadata.job_title === "string" ? user.user_metadata.job_title : "";
-  const agencyName = typeof user.user_metadata.agency_name === "string" ? user.user_metadata.agency_name : "";
-  const phone = typeof user.user_metadata.phone === "string" ? user.user_metadata.phone : "";
-  const website = typeof user.user_metadata.website === "string" ? user.user_metadata.website : "";
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("full_name, job_title, agency_name, phone, website")
+    .eq("id", user.id)
+    .maybeSingle();
+  const fullName = profile?.full_name ?? "";
+  const jobTitle = profile?.job_title ?? "";
+  const agencyName = profile?.agency_name ?? "";
+  const phone = profile?.phone ?? "";
+  const website = profile?.website ?? "";
 
   return (
     <main className={styles.page}>

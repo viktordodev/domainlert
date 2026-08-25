@@ -164,3 +164,28 @@
     padding: 32px 0;
   }
 }
+
+.skeletonBlock {
+  height: 220px;
+  border-radius: 2px;
+  background: var(--line);
+  animation: skeletonPulse 1.4s ease-in-out infinite;
+}
+.skeletonSettings {
+  display: grid;
+  gap: 24px;
+}
+@keyframes skeletonPulse {
+  0%,
+  100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .skeletonBlock {
+    animation: none;
+  }
+}
