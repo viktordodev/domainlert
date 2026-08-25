@@ -104,10 +104,10 @@ export function DomainList({ domains, deleteAction, alertsAction, defaultThresho
       </div>
       <div className={styles.cardRows} key={currentPage}>
         {paginatedDomains.length ? paginatedDomains.map((domain) => (
-          <div className={`${styles.cardRow} ${domain.status === "expiring_soon" ? styles.warning : ""}`} key={domain.id}>
-            <span className={domain.status === "expiring_soon" ? styles.statusWarn : styles.statusGood}></span>
+          <div className={`${styles.cardRow} ${domain.status === "expiring_soon" || domain.status === "not_registered" ? styles.warning : ""}`} key={domain.id}>
+            <span className={domain.status === "expiring_soon" || domain.status === "not_registered" ? styles.statusWarn : styles.statusGood}></span>
             <strong>{domain.domain_name}</strong>
-            <span>{domain.expiry_date ?? "Expiry check pending"}</span>
+            <span>{domain.status === "not_registered" ? "Not registered" : domain.expiry_date ?? "Expiry check pending"}</span>
             <small>{domain.status.replace("_", " ")}</small>
             <span className={styles.alertSetting}>{domain.alert_thresholds?.length ? `Custom: ${domain.alert_thresholds.join(", ")}` : "Default thresholds"}</span>
             <div className={styles.rowActions}>

@@ -129,6 +129,7 @@ export async function GET(request: Request) {
     const { data: domains, error } = await supabase
       .from("domains")
       .select("id, domain_name, user_id, alert_thresholds, alert_recipients")
+      .neq("status", "not_registered")
       .order("last_checked_at", { ascending: true, nullsFirst: true })
       .limit(BATCH_SIZE);
 
@@ -143,15 +144,18 @@ export async function GET(request: Request) {
 
     let checked = 0;
     let failed = 0;
+    let notRegistered = 0;
 
     await runWithConcurrency(domains ?? [], CONCURRENCY, async (domain) => {
       const result = await checkDomainExpiry(domain.domain_name);
 
       checked += 1;
 
-      // A failed lookup only updates last_checked_at, preserving any previously known expiry/registrar.
+      // A failed lookup or a "not registered" result only updates last_checked_at, preserving
+      // any previously known expiry/registrar (relevant mainly for check_failed, where the
+      // domain likely still holds its old registration).
       const update =
-        result.status === "check_failed"
+        result.status === "check_failed" || result.status === "not_registered"
           ? { status: result.status, last_checked_at: new Date().toISOString() }
           : {
               status: result.status,
@@ -162,6 +166,8 @@ export async function GET(request: Request) {
 
       if (result.status === "check_failed") {
         failed += 1;
+      } else if (result.status === "not_registered") {
+        notRegistered += 1;
       } else if (result.expiryDate) {
         await sendPendingAlerts(supabase, domain, result.expiryDate, emailByUserId, ownerProfilesByUserId);
       }
@@ -173,7 +179,7 @@ export async function GET(request: Request) {
     // the next invocation picks them up first since they now sort oldest-last_checked_at-first.
     const truncated = (domains ?? []).length === BATCH_SIZE;
 
-    return NextResponse.json({ checked, failed, truncated });
+    return NextResponse.json({ checked, failed, notRegistered, truncated });
   } catch (err) {
     return NextResponse.json(
       { error: "Unhandled exception", detail: err instanceof Error ? err.message : String(err) },
