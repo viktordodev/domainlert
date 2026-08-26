@@ -126,7 +126,13 @@
   min-height: 40px;
   padding: 8px 10px;
   border: 1px solid var(--line);
+  background: var(--field);
+  color: var(--ink);
   font: 12px var(--font-manrope), sans-serif;
+}
+
+.thresholdsInput::placeholder {
+  color: var(--field-placeholder);
 }
 
 .formError {

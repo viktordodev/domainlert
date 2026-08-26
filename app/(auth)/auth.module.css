@@ -7,7 +7,8 @@
 .intro { max-width: 390px; margin-top: 22px; color: var(--muted); font-size: 15px; line-height: 1.7; }
 .form { display: grid; gap: 9px; margin-top: 34px; }
 .form label { margin-top: 9px; font-size: 12px; font-weight: 800; }
-.form input { width: 100%; padding: 15px 14px; border: 1px solid var(--line); border-radius: 0; background: white; color: var(--ink); font: inherit; }
+.form input { width: 100%; padding: 15px 14px; border: 1px solid var(--line); border-radius: 0; background: var(--field); color: var(--ink); font: inherit; }
+.form input::placeholder { color: var(--field-placeholder); }
 .form input:focus { outline: 2px solid var(--rust); outline-offset: 2px; }
 .form button { display: flex; width: 100%; align-items: center; justify-content: space-between; margin-top: 14px; padding: 16px 18px; border: 0; background: var(--ink); color: var(--paper); cursor: pointer; font: inherit; font-size: 12px; font-weight: 800; text-align: left; transition: background-color 0.3s ease; }
 .form button:hover { background: var(--rust); }

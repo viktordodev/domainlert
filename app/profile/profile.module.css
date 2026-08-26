@@ -111,7 +111,7 @@
   padding: 12px 13px;
   border: 1px solid var(--line);
   border-radius: 0;
-  background: white;
+  background: var(--field);
   color: var(--ink);
   font: 14px var(--font-manrope), sans-serif;
 }

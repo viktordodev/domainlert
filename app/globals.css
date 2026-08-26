@@ -9,6 +9,8 @@
   --teal: #b8d8d5;
   --teal-pale: #e0efed;
   --teal-dark: #2f6f6b;
+  --field: #ffffff;
+  --field-placeholder: #a2a29a;
 }
 
 :root[data-theme="dark"] {
@@ -22,6 +24,8 @@
   --teal: #8fcac4;
   --teal-pale: #223633;
   --teal-dark: #7fd1c8;
+  --field: #1e211a;
+  --field-placeholder: #86867a;
 }
 
 html {

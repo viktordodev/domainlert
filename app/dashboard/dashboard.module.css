@@ -192,8 +192,8 @@
   padding: 8px 10px;
   border: 1px solid var(--line);
   border-radius: 2px;
-  background: white;
-  color: #1c1d19;
+  background: var(--field);
+  color: var(--ink);
   font: 11px var(--font-manrope), sans-serif;
   outline: none;
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
@@ -205,7 +205,7 @@
   box-shadow: 0 0 0 3px var(--teal-pale);
 }
 .searchField input::placeholder {
-  color: #a2a29a;
+  color: var(--field-placeholder);
 }
 .sortField select {
   min-width: 112px;
@@ -416,7 +416,7 @@
   padding: 14px;
   resize: vertical;
   border: 1px solid var(--line);
-  background: white;
+  background: var(--field);
   color: var(--ink);
   font:
     14px var(--font-dm-mono),
@@ -427,7 +427,7 @@
   padding: 14px;
   border: 1px solid var(--line);
   border-radius: 0;
-  background: white;
+  background: var(--field);
   color: var(--ink);
   font:
     14px var(--font-dm-mono),
@@ -442,7 +442,7 @@
 }
 .importForm input[type="text"]::placeholder,
 .importForm textarea::placeholder {
-  color: #a2a29a;
+  color: var(--field-placeholder);
 }
 .importForm button,
 .signOut button {
