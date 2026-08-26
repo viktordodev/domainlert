@@ -10,25 +10,29 @@ import styles from "./pricing.module.css";
 export const metadata = pageMetadata({
   path: "/pricing",
   title: "Pricing",
-  description: "DomainLert costs $8/month, billed annually at $96 — one plan, every feature included, up to 1,000 monitored domains per account.",
+  description: "DomainLert is free while we're in early access — the first 100 accounts get every feature at no cost. Planned pricing after that is $8/month, billed annually at $96.",
 });
 
-const billingFaq = [
+const pricingFaq = [
   {
-    question: "Is there a free trial?",
-    answer: "There's no separate trial tier today. Cancel within your first 30 days for a full refund if it's not the right fit.",
+    question: "Is it really free?",
+    answer: "Yes. DomainLert is free while we're in early access, and the first 100 accounts get every feature at no cost. There's no credit card required and no trial clock running.",
+  },
+  {
+    question: "What happens after the first 100 accounts?",
+    answer: "We plan to introduce a paid plan — $8/month, billed annually at $96 — for accounts that sign up after that. We'll decide nearer the time how the earliest accounts are handled, and anyone already signed up gets plenty of notice before anything about their account changes.",
+  },
+  {
+    question: "Do I need to enter payment details?",
+    answer: "No. You can create an account and start monitoring domains right away, with no card on file.",
   },
   {
     question: "What happens if I hit the 1,000-domain cap?",
     answer: "New domains are blocked once you reach the cap, and you'll see a clear in-app message pointing you to support — never a silent failure. Reach out before you're close and we'll help you plan ahead.",
   },
   {
-    question: "Can I change or cancel anytime?",
-    answer: "Yes. Cancel any time to stop future renewals. Cancelling within the first 30 days gets you a full refund.",
-  },
-  {
-    question: "Do you offer invoicing or a different billing arrangement?",
-    answer: "Billing is annual today. If you need something different, contact us and we'll see what's possible.",
+    question: "Can I cancel anytime?",
+    answer: "There's nothing to cancel while it's free — stop using it or delete your account whenever you like. Once paid plans exist, you'll be able to cancel any time to stop future renewals.",
   },
 ];
 
@@ -40,14 +44,8 @@ const productJsonLd = {
   brand: { "@type": "Brand", name: "DomainLert" },
   offers: {
     "@type": "Offer",
-    price: "8.00",
+    price: "0",
     priceCurrency: "USD",
-    priceSpecification: {
-      "@type": "UnitPriceSpecification",
-      price: "96.00",
-      priceCurrency: "USD",
-      billingDuration: { "@type": "QuantitativeValue", value: 1, unitCode: "ANN" },
-    },
     url: `${siteUrl}/pricing`,
     availability: "https://schema.org/InStock",
   },
@@ -56,7 +54,7 @@ const productJsonLd = {
 const faqJsonLd = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
-  mainEntity: billingFaq.map(({ question, answer }) => ({
+  mainEntity: pricingFaq.map(({ question, answer }) => ({
     "@type": "Question",
     name: question,
     acceptedAnswer: { "@type": "Answer", text: answer },
@@ -71,25 +69,26 @@ export default function PricingPage() {
 
       <section className={styles.hero}>
         <p className={styles.eyebrow}>Pricing</p>
-        <h1>One plan. No surprises.</h1>
-        <p>$8 a month, billed annually. Every feature included — no per-domain pricing, no hidden tiers, no upsells once you&rsquo;re in.</p>
+        <h1>Free for the first 100.</h1>
+        <p>DomainLert is free while we&rsquo;re in early access. The first 100 accounts get every feature at no cost &mdash; no credit card, no trial clock. After that, the planned price is $8/month.</p>
       </section>
 
       <div className={styles.priceCardWrap}>
         <div className={styles.priceCard}>
-          <h2>$8<span>/month</span></h2>
-          <p className={styles.annual}>Billed annually at $96.*</p>
+          <p className={styles.tag}>Early access</p>
+          <h2>Free<span>for now</span></h2>
+          <p className={styles.annual}>Every feature included, up to 1,000 domains. Planned pricing once early access ends: $8/month, billed annually at $96.</p>
           <Suspense fallback={<AuthCtaFallback className={styles.primaryButton} signedOutLabel="Start monitoring" />}>
             <AuthCta className={styles.primaryButton} signedInLabel="Open your dashboard" signedOutLabel="Start monitoring" />
           </Suspense>
-          <p className={styles.note}>* Fair usage policy applies. Cancel within 30 days for a full refund.</p>
+          <p className={styles.note}>No credit card required. Fair usage policy applies.</p>
         </div>
       </div>
 
       <div className={styles.content}>
         <section className={styles.section}>
           <h2>What&rsquo;s included</h2>
-          <p>Every account gets the full product — there&rsquo;s nothing to unlock at a higher tier.</p>
+          <p>Every account gets the full product, free while we&rsquo;re in early access — there&rsquo;s nothing held back for a higher tier.</p>
           <ul className={styles.includedList}>
             <li>Daily automated expiry checks across your entire domain list</li>
             <li>Configurable alert thresholds — 30/14/7 day defaults, up to 5 custom per domain</li>
@@ -109,9 +108,9 @@ export default function PricingPage() {
         </section>
 
         <section className={styles.section}>
-          <h2>Billing questions</h2>
+          <h2>Common questions</h2>
           <div className={styles.faqList}>
-            {billingFaq.map(({ question, answer }) => (
+            {pricingFaq.map(({ question, answer }) => (
               <Accordion key={question} question={question} answer={answer} />
             ))}
           </div>

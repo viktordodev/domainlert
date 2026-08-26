@@ -49,6 +49,17 @@
   box-shadow: 16px 16px 0 var(--ink);
 }
 
+.priceCard .tag {
+  display: inline-block;
+  margin-bottom: 18px;
+  padding: 5px 11px;
+  color: var(--rust);
+  background: var(--rust-pale);
+  font: 10px var(--font-dm-mono), monospace;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
 .priceCard h2 {
   font-family: var(--font-playfair), serif;
   font-size: clamp(72px, 12vw, 110px);

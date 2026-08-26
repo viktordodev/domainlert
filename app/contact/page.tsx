@@ -19,7 +19,7 @@ export default function ContactPage() {
         <div className={styles.body}>
           <section className={styles.section}>
             <h2>Support and billing</h2>
-            <p>Questions about your account, alerts not arriving, or anything about your $8/month plan — email <a href={`mailto:${SUPPORT_EMAIL}`}>{SUPPORT_EMAIL}</a> and we&rsquo;ll get back to you.</p>
+            <p>Questions about your account, alerts not arriving, or anything else about DomainLert — email <a href={`mailto:${SUPPORT_EMAIL}`}>{SUPPORT_EMAIL}</a> and we&rsquo;ll get back to you.</p>
           </section>
           <section className={styles.section}>
             <h2>Approaching the 1,000-domain cap?</h2>

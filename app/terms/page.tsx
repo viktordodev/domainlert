@@ -34,7 +34,7 @@ export default function TermsPage() {
           </section>
           <section className={styles.section}>
             <h2>Payments and cancellation</h2>
-            <p>Paid plans renew according to the plan details shown at checkout. You may cancel to stop future renewals. Any refund eligibility is governed by the offer shown when you subscribed.</p>
+            <p>DomainLert is currently free while in early access, and no payment is collected. If we introduce paid plans, they will renew according to the plan details shown at checkout, you may cancel to stop future renewals, and any refund eligibility is governed by the offer shown when you subscribe.</p>
           </section>
           <section className={styles.section}>
             <h2>Availability and liability</h2>

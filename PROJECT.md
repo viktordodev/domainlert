@@ -54,7 +54,8 @@ The first tool is DomainLert, but the navigation should anticipate a broader mon
 ---
 
 ## Pricing Model
-- **$9/month, billed annually** ($108/year charged upfront)
+- **Currently free while in early access.** Marketed as "free for the first 100 users" — the first 100 accounts get every feature at no cost, no card required. Whether the earliest accounts are grandfathered when paid plans launch is an open decision.
+- **Planned paid plan: $8/month, billed annually at $96**, introduced once early access ends (site currently shows $8; this section previously said $9)
 - Marketed as "unlimited domains"
 - **Hidden cap: 1,000 domains per account**
 - At the cap: block adding new domains, show an explicit in-app message directing the user to contact support (not a silent failure)

@@ -27,7 +27,7 @@ export default function AboutPage() {
           </section>
           <section className={styles.section}>
             <h2>How we build this</h2>
-            <p>We&rsquo;d rather say less and have it be true. You&rsquo;ll see specific, checkable claims here &mdash; what gets checked, how often, what a plan actually includes &mdash; instead of vague promises. One flat plan, no per-domain pricing, and a domain cap that&rsquo;s stated up front rather than discovered the hard way.</p>
+            <p>We&rsquo;d rather say less and have it be true. You&rsquo;ll see specific, checkable claims here &mdash; what gets checked, how often, what a plan actually includes &mdash; instead of vague promises. It&rsquo;s free while we&rsquo;re in early access, with the first 100 accounts at no cost and one flat $8/month plan planned after that. No per-domain pricing, and a domain cap that&rsquo;s stated up front rather than discovered the hard way.</p>
           </section>
           <section className={styles.section}>
             <h2>How your data is handled</h2>

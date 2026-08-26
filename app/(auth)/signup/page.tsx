@@ -10,7 +10,7 @@ type SignupPageProps = {
 export const metadata = pageMetadata({
   path: "/signup",
   title: "Sign up",
-  description: "Create a DomainLert account and start monitoring your domains for $8/month.",
+  description: "Create a DomainLert account and start monitoring your domains — free while DomainLert is in early access.",
   index: false,
 });
 

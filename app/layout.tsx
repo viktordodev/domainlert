@@ -24,7 +24,7 @@ const dmMono = DM_Mono({
 
 const DEFAULT_TITLE = "DomainLert | Know before your domains lapse";
 const DEFAULT_DESCRIPTION =
-  "Domain expiry monitoring for agencies and teams that cannot afford a missed renewal. Daily checks, configurable alerts, and bulk import — for one flat monthly price.";
+  "Domain expiry monitoring for agencies and teams that cannot afford a missed renewal. Daily checks, configurable alerts, and bulk import — free while we're in early access.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),

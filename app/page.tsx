@@ -32,8 +32,8 @@ const faqItems = [
     answer: "Yes. Add multiple alert recipients so renewals reach the owner, client, or teammate responsible for taking action.",
   },
   {
-    question: "Can I cancel my service?",
-    answer: "Yes. Cancel within your first 30 days for a full refund. After that window, you can still cancel at any time to stop future renewals.",
+    question: "Is DomainLert free?",
+    answer: "It is free while we are in early access — the first 100 accounts get every feature at no cost, with no credit card required. After that, the planned price is $8/month; anyone already signed up gets plenty of notice before that changes.",
   },
 ];
 
@@ -58,7 +58,7 @@ export default function Home() {
             <h1>Never find out<br /><em>too late.</em></h1>
             <p className={styles.heroText}>Domain renewals are easy to forget and expensive to miss. DomainLert watches your managed domains, checks the dates, and tells the right person while there is still time to act.</p>
             <div className={styles.heroActions}><Suspense fallback={<AuthCtaFallback className={styles.primaryButton} signedOutLabel="Start monitoring" />}><AuthCta className={styles.primaryButton} signedInLabel="Open dashboard" signedOutLabel="Start monitoring" /></Suspense><Link className={styles.textLink} href="#product">See how it works <span aria-hidden="true">↓</span></Link></div>
-            <p className={styles.note}>One flat plan. Cancel within 30 days for a full refund.</p>
+            <p className={styles.note}>Free while we&rsquo;re in early access. No credit card required.</p>
           </div>
           <div className={styles.heroVisual} aria-label="A preview of the DomainLert domain monitoring dashboard">
             <div className={styles.visualLabel}>Managed Domains / 24 domains <span>● MONITORING ACTIVE</span></div>
@@ -83,7 +83,7 @@ export default function Home() {
         </section>
         <section className={styles.darkSection} id="solutions"><div className={styles.darkIntro}><p className={styles.kicker}>Designed for responsibility</p><h2>Because “I thought<br />you had it” is not<br /><em>a process.</em></h2></div><div className={styles.quote}><p>“We manage domains for 18 clients. DomainLert gives every renewal a clear owner, without another spreadsheet to babysit.”</p><span>Operations lead, digital agency</span></div></section>
         <section className={styles.pricing} id="pricing">
-          <div><p className={styles.kicker}>One clear plan</p><h2>$8<span>/month</span></h2><p className={styles.annual}>Billed annually at $96. Unlimited domains.*</p><p className={styles.usageNote}>* Fair usage policy applies. Cancel within 30 days for a full refund.</p></div>
+          <div><p className={styles.kicker}>Free in early access</p><h2>Free<span>for now</span></h2><p className={styles.annual}>Every feature included for the first 100 accounts. Planned price after early access: $8/month, billed annually at $96.*</p><p className={styles.usageNote}>* Fair usage policy applies. No credit card required.</p></div>
           <div className={styles.priceDetails}>
             <p>Everything you need to stay ahead of expiry:</p>
             <ul><li>Daily domain checks</li><li>Configurable alerts — 30/14/7 day defaults, up to 5 custom per domain</li><li>Bulk import and domain history</li><li>Multiple alert recipients per domain</li></ul>
