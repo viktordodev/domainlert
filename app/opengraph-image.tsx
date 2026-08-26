@@ -1,6 +1,8 @@
 import { ImageResponse } from "next/og";
+import sv from "@/dictionaries/sv";
 
-export const alt = "DomainLert — domain expiry monitoring";
+// Locale-neutral share card. Swedish is the primary language, so the card uses Swedish copy.
+export const alt = "DomainLert — bevakning av domäners utgång";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -26,13 +28,13 @@ export default function Image() {
           </div>
         </div>
         <div style={{ display: "flex", fontSize: 64, fontWeight: 700, color: "#1c1d19", lineHeight: 1.15, maxWidth: 920 }}>
-          Know before your domains lapse.
+          {sv.og.title}
         </div>
-        <div style={{ display: "flex", fontSize: 26, color: "#77786f", marginTop: 32, maxWidth: 780 }}>
-          Domain expiry monitoring for agencies and teams that cannot afford a missed renewal.
+        <div style={{ display: "flex", fontSize: 26, color: "#77786f", marginTop: 32, maxWidth: 820 }}>
+          {sv.og.subtitle}
         </div>
       </div>
     ),
-    { ...size }
+    { ...size },
   );
 }
