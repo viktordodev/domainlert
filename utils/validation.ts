@@ -6,31 +6,32 @@ export function isEmail(value: string): boolean {
   return value.length <= 254 && EMAIL_PATTERN.test(value);
 }
 
-export type ThresholdValidation = { thresholds: number[] | null; error: string | null };
+export type ThresholdErrorCode = "atLeastOne" | "wholeNumbers" | "tooMany";
+export type ThresholdError = { code: ThresholdErrorCode; max?: number };
+export type ThresholdValidation = { thresholds: number[] | null; error: ThresholdError | null };
 
 /**
  * Parses a comma-separated list of day thresholds (1-365).
  * `allowEmpty: true` lets a blank input mean "use the default" (returns thresholds: null).
+ * Errors are returned as codes so the caller can localize the message.
  */
 export function validateThresholds(raw: string, { maxCount, allowEmpty }: { maxCount: number; allowEmpty: boolean }): ThresholdValidation {
-  const blankHint = allowEmpty ? ", or leave blank to use your default" : "";
-
   if (raw.length === 0) {
     if (allowEmpty) return { thresholds: null, error: null };
-    return { thresholds: null, error: "Enter at least one valid day threshold (1-365), separated by commas." };
+    return { thresholds: null, error: { code: "atLeastOne" } };
   }
 
   const parts = raw.split(",").map((part) => part.trim());
   const invalid = parts.some((part) => part.length === 0 || !/^\d{1,3}$/.test(part) || Number(part) < 1 || Number(part) > 365);
 
   if (invalid) {
-    return { thresholds: null, error: `Use whole-number thresholds from 1 to 365, separated by commas${blankHint}.` };
+    return { thresholds: null, error: { code: "wholeNumbers" } };
   }
 
   const thresholds = [...new Set(parts.map(Number))].sort((a, b) => b - a);
 
   if (thresholds.length > maxCount) {
-    return { thresholds: null, error: `Use ${maxCount} or fewer thresholds${blankHint}.` };
+    return { thresholds: null, error: { code: "tooMany", max: maxCount } };
   }
 
   return { thresholds, error: null };

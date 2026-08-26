@@ -1,0 +1,33 @@
+.switcher {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 14px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.switcher a {
+  color: var(--muted);
+  transition: color 0.2s ease;
+}
+
+.switcher a:hover {
+  color: var(--rust);
+}
+
+.switcher a.active {
+  color: var(--ink);
+}
+
+.compact {
+  gap: 8px;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+}
+
+/* Compact (desktop header) keeps the two codes on one line with a divider. */
+.compact a + a {
+  padding-left: 8px;
+  border-left: 1px solid var(--line);
+}

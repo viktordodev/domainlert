@@ -1,7 +1,11 @@
 import type { MetadataRoute } from "next";
 import { siteUrl } from "@/utils/site";
 
-const routes: { path: string; changeFrequency: MetadataRoute.Sitemap[number]["changeFrequency"]; priority: number }[] = [
+const routes: {
+  path: string;
+  changeFrequency: MetadataRoute.Sitemap[number]["changeFrequency"];
+  priority: number;
+}[] = [
   { path: "", changeFrequency: "weekly", priority: 1 },
   { path: "/features", changeFrequency: "monthly", priority: 0.8 },
   { path: "/pricing", changeFrequency: "monthly", priority: 0.8 },
@@ -14,10 +18,16 @@ const routes: { path: string; changeFrequency: MetadataRoute.Sitemap[number]["ch
 export default function sitemap(): MetadataRoute.Sitemap {
   const lastModified = new Date();
 
-  return routes.map(({ path, changeFrequency, priority }) => ({
-    url: `${siteUrl}${path}`,
-    lastModified,
-    changeFrequency,
-    priority,
-  }));
+  return routes.map(({ path, changeFrequency, priority }) => {
+    const svUrl = `${siteUrl}${path || "/"}`;
+    const enUrl = `${siteUrl}/en${path}`;
+
+    return {
+      url: svUrl,
+      lastModified,
+      changeFrequency,
+      priority,
+      alternates: { languages: { "sv-SE": svUrl, en: enUrl } },
+    };
+  });
 }

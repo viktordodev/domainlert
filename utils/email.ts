@@ -1,4 +1,6 @@
 import nodemailer from "nodemailer";
+import { getDictionary } from "@/dictionaries";
+import { DEFAULT_LOCALE, format, localizePath, type Locale } from "@/utils/i18n";
 import { requireEnv } from "@/utils/env";
 
 let transporter: ReturnType<typeof nodemailer.createTransport> | null = null;
@@ -31,6 +33,9 @@ export type ExpiryAlertEmail = {
   // knows who added them and who to contact to change or stop these emails.
   ownerName: string | null;
   ownerEmail: string | null;
+  // Language of the alert. Defaults to Swedish (the primary language); the cron job has no
+  // per-recipient locale to work from, while the "send test email" button passes the sender's.
+  locale?: Locale;
 };
 
 // Free-text fields (profile full_name/agency_name) end up interpolated into this HTML, so they
@@ -44,12 +49,16 @@ function escapeHtml(value: string): string {
     .replace(/'/g, "&#39;");
 }
 
-function describeOwner(ownerName: string | null, ownerEmail: string | null): { text: string; html: string } {
+function describeOwner(
+  ownerName: string | null,
+  ownerEmail: string | null,
+  fallback: string,
+): { text: string; html: string } {
   const name = ownerName?.trim() || null;
   const email = ownerEmail?.trim() || null;
 
   if (!name && !email) {
-    return { text: "your DomainLert account owner", html: "your DomainLert account owner" };
+    return { text: fallback, html: fallback };
   }
 
   const safeName = name ? escapeHtml(name) : null;
@@ -63,21 +72,31 @@ function describeOwner(ownerName: string | null, ownerEmail: string | null): { t
   return safeName ? { text: name as string, html: safeName } : { text: email as string, html: mailtoLink as string };
 }
 
-export async function sendExpiryAlertEmail({ to, domainName, daysRemaining, expiryDate, ownerName, ownerEmail }: ExpiryAlertEmail) {
+export async function sendExpiryAlertEmail({
+  to,
+  domainName,
+  daysRemaining,
+  expiryDate,
+  ownerName,
+  ownerEmail,
+  locale = DEFAULT_LOCALE,
+}: ExpiryAlertEmail) {
+  const t = getDictionary(locale).email;
   const from = process.env.SMTP_FROM ?? "alerts@domainlert.com";
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
-  const dayLabel = daysRemaining === 1 ? "1 day" : `${daysRemaining} days`;
+  const dashboardUrl = `${siteUrl}${localizePath(locale, "/dashboard")}`;
+  const dayLabel = daysRemaining === 1 ? t.daySingular : format(t.dayPlural, { count: daysRemaining });
   const safeDomainName = escapeHtml(domainName);
-  const owner = describeOwner(ownerName, ownerEmail);
+  const owner = describeOwner(ownerName, ownerEmail, t.ownerFallback);
 
   const text = [
-    `DomainLert alert: ${domainName} expires in ${dayLabel}`,
+    format(t.textTitle, { domain: domainName, dayLabel }),
     "",
-    `${domainName} is set to expire on ${expiryDate} (${dayLabel} from now). Renew it soon to avoid a lapse.`,
+    format(t.textBody, { domain: domainName, date: expiryDate, dayLabel }),
     "",
-    `View your dashboard: ${siteUrl}/dashboard`,
+    format(t.textDashboard, { url: dashboardUrl }),
     "",
-    `This alert was set up in DomainLert by ${owner.text}. To change how these alerts are sent, or to stop receiving them, contact ${owner.text} directly.`,
+    format(t.footer, { owner: owner.text }),
   ].join("\n");
 
   const html = `
@@ -87,16 +106,16 @@ export async function sendExpiryAlertEmail({ to, domainName, daysRemaining, expi
           <span style="font-size:13px;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;color:#bf4e32;">DomainLert</span>
         </div>
         <div style="padding:28px;">
-          <p style="margin:0 0 6px;font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#77786f;">Expiry alert</p>
-          <h1 style="margin:0 0 16px;font-size:22px;line-height:1.3;color:#1c1d19;">${safeDomainName} expires in ${dayLabel}</h1>
+          <p style="margin:0 0 6px;font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#77786f;">${t.eyebrow}</p>
+          <h1 style="margin:0 0 16px;font-size:22px;line-height:1.3;color:#1c1d19;">${format(t.heading, { domain: safeDomainName, dayLabel })}</h1>
           <p style="margin:0 0 24px;font-size:14px;line-height:1.6;color:#1c1d19;">
-            This domain is set to expire on <strong>${expiryDate}</strong>. Renew it soon to avoid a lapse in service.
+            ${format(t.htmlBody, { date: expiryDate })}
           </p>
-          <a href="${siteUrl}/dashboard" style="display:inline-block;padding:12px 18px;background:#1c1d19;color:#f7f5ef;font-size:13px;font-weight:700;text-decoration:none;">View your dashboard &rarr;</a>
+          <a href="${dashboardUrl}" style="display:inline-block;padding:12px 18px;background:#1c1d19;color:#f7f5ef;font-size:13px;font-weight:700;text-decoration:none;">${t.viewDashboard} &rarr;</a>
         </div>
         <div style="padding:18px 28px;background:#f4f2ea;border-top:1px solid #d8d5cc;">
           <p style="margin:0;font-size:12px;line-height:1.6;color:#77786f;">
-            This alert was set up in DomainLert by ${owner.html}. To change how these alerts are sent, or to stop receiving them, contact ${owner.html} directly.
+            ${format(t.footer, { owner: owner.html })}
           </p>
         </div>
       </div>
@@ -106,7 +125,7 @@ export async function sendExpiryAlertEmail({ to, domainName, daysRemaining, expi
   await getTransporter().sendMail({
     from,
     to,
-    subject: `DomainLert: ${domainName} expires in ${dayLabel}`,
+    subject: format(t.subject, { domain: domainName, dayLabel }),
     text,
     html,
   });

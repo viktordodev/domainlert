@@ -7,7 +7,7 @@ export default function robots(): MetadataRoute.Robots {
       userAgent: "*",
       allow: "/",
       // Authenticated app surface and internal endpoints have nothing for a crawler to index.
-      disallow: ["/dashboard", "/profile", "/api/", "/auth/"],
+      disallow: ["/dashboard", "/profile", "/en/dashboard", "/en/profile", "/api/", "/auth/"],
     },
     sitemap: `${siteUrl}/sitemap.xml`,
   };
