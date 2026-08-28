@@ -77,7 +77,7 @@ const sv: Dictionary = {
   dashboardPreview: {
     label: "Bevakade domäner",
     domains: "{count} domäner",
-    monitoringActive: "● BEVAKNING AKTIV",
+    monitoringActive: "◆ BEVAKNING AKTIV",
     goodMorningAlex: "God morgon, Alex",
     date: "21 AUG 2026",
     domainsHealthy: "domäner friska",
@@ -698,7 +698,7 @@ const sv: Dictionary = {
     meta: { title: "Panel" },
     eyebrow: "Domänbevakning",
     title: "Bevakade domäner",
-    monitoringActive: "● BEVAKNING AKTIV",
+    monitoringActive: "◆ BEVAKNING AKTIV",
     domainsLabel: "Bevakade domäner / {count} domäner",
     goodMorning: "God morgon",
     goodMorningName: "God morgon, {name}",

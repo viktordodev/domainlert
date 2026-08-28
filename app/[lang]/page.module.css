@@ -34,12 +34,12 @@
 }
 .liveDot {
   display: inline-block;
-  width: 7px;
-  height: 7px;
-  margin-right: 8px;
-  border-radius: 50%;
+  width: 6px;
+  height: 6px;
+  margin-right: 12px;
+  transform: rotate(45deg);
   background: var(--teal-dark);
-  box-shadow: 0 0 0 4px var(--teal-pale);
+  box-shadow: 0 0 0 3px var(--teal-pale);
 }
 .page h1,
 .page h2 {
@@ -201,9 +201,9 @@
 }
 .statusGood,
 .statusWarn {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
+  width: 6px;
+  height: 6px;
+  transform: rotate(45deg);
   background: var(--teal-dark);
 }
 .statusWarn {

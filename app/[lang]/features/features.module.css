@@ -118,9 +118,9 @@
 }
 .statusGood,
 .statusWarn {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
+  width: 6px;
+  height: 6px;
+  transform: rotate(45deg);
   background: var(--teal-dark);
 }
 .statusWarn {

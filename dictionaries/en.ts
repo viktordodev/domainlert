@@ -80,7 +80,7 @@ const en = {
   dashboardPreview: {
     label: "Managed Domains",
     domains: "{count} domains",
-    monitoringActive: "● MONITORING ACTIVE",
+    monitoringActive: "◆ MONITORING ACTIVE",
     goodMorningAlex: "Good morning, Alex",
     date: "21 AUG 2026",
     domainsHealthy: "domains healthy",
@@ -701,7 +701,7 @@ const en = {
     meta: { title: "Dashboard" },
     eyebrow: "Domain monitoring",
     title: "Managed Domains",
-    monitoringActive: "● MONITORING ACTIVE",
+    monitoringActive: "◆ MONITORING ACTIVE",
     domainsLabel: "Managed Domains / {count} domains",
     goodMorning: "Good morning",
     goodMorningName: "Good morning, {name}",
