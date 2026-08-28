@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { LOCALES, localizePath, stripLocale, type Locale } from "@/utils/i18n";
+import { LOCALES, localeSwitchPath, stripLocale, type Locale } from "@/utils/i18n";
 import styles from "./LocaleSwitcher.module.css";
 
 type LocaleSwitcherProps = {
@@ -23,9 +23,11 @@ export function LocaleSwitcher({ names, label, compact = false }: LocaleSwitcher
         // Router keeps the previous root-layout render mounted (hidden) on a soft navigation
         // instead of replacing it. A full document load also lets the proxy re-run — resetting the
         // NEXT_LOCALE cookie and re-rendering every server component in the new language.
+        // The href keeps an explicit locale prefix (incl. /sv) so the proxy stamps NEXT_LOCALE
+        // before rendering — otherwise the returning-visitor rule bounces sv→en straight back.
         <a
           key={locale}
-          href={localizePath(locale, path)}
+          href={localeSwitchPath(locale, path)}
           hrefLang={locale}
           aria-current={locale === current ? "true" : undefined}
           className={locale === current ? styles.active : undefined}

@@ -33,6 +33,17 @@ export function localizePath(locale: Locale, path: string): string {
 }
 
 /**
+ * Href for the language switcher. Unlike `localizePath`, the Swedish target keeps an explicit
+ * `/sv` prefix so the proxy's canonical redirect runs and stamps the NEXT_LOCALE cookie before
+ * serving the page. Without it, a visitor whose cookie still says `en` who clicks "Svenska" on
+ * the bare root is immediately bounced back to `/en` by the returning-visitor rule.
+ */
+export function localeSwitchPath(locale: Locale, path: string): string {
+  const rest = path === "" || path === "/" ? "" : path.startsWith("/") ? path : `/${path}`;
+  return `/${locale}${rest}`;
+}
+
+/**
  * Splits a path into its locale and the app-relative remainder. Handles both the visible form
  * ("/pricing", "/en/pricing") and the internally rewritten form ("/sv/pricing").
  */

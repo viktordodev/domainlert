@@ -31,9 +31,15 @@ export async function proxy(request: NextRequest) {
   const url = request.nextUrl;
   const { pathname } = url;
 
-  // The internal Swedish tree (/sv/*) is an implementation detail — never expose it.
+  // The internal Swedish tree (/sv/*) is an implementation detail — never expose it. The language
+  // switcher links here deliberately: stamping NEXT_LOCALE=sv on this redirect is what stops the
+  // returning-visitor rule below from bouncing the follow-up request to `/` back to `/en`.
   if (pathname === "/sv" || pathname.startsWith("/sv/")) {
-    return NextResponse.redirect(new URL(pathname.slice(3) || "/", url));
+    return withLocaleCookie(
+      NextResponse.redirect(new URL(pathname.slice(3) || "/", url)),
+      "sv",
+      request,
+    );
   }
 
   const hasEnPrefix = pathname === "/en" || pathname.startsWith("/en/");
