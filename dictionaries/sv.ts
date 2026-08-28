@@ -22,9 +22,9 @@ const sv: Dictionary = {
       { name: "Task Ledger", description: "Enkel uppgiftshantering" },
       { name: "DNS Lens", description: "Hälsokontroller för DNS" },
     ],
-    product: "Produkt",
-    solutions: "Lösningar",
-    resources: "Resurser",
+    product: "Funktioner",
+    solutions: "Omdömen",
+    resources: "Vanliga frågor",
     pricing: "Priser",
     homeAriaLabel: "DomainLert startsida",
     mainNavigation: "Huvudmeny",
@@ -96,6 +96,12 @@ const sv: Dictionary = {
       text: "Domänförnyelser är lätta att glömma och dyra att missa. DomainLert bevakar dina domäner, kontrollerar datumen och säger till rätt person medan det fortfarande finns tid att agera.",
       seeHow: "Se hur det fungerar",
       note: "Gratis medan vi är i tidig access. Inget kreditkort krävs.",
+      trustBadges: [
+        "Drift i Sverige/EU",
+        "GDPR-redo",
+        "Krypterad överföring",
+        "Inget kreditkort",
+      ],
     },
     proof: {
       heading: "För dem som håller verksamheten igång",
@@ -121,14 +127,34 @@ const sv: Dictionary = {
       ],
       seeAll: "Se alla funktioner →",
     },
-    dark: {
-      kicker: "Byggt för ansvar",
-      titleLine1: "För att ”jag trodde",
-      titleLine2: "du hade koll” inte är",
-      titleEm: "en rutin.",
-      quote:
-        "”Vi hanterar domäner åt 18 kunder. DomainLert ger varje förnyelse en tydlig ägare, utan ännu ett kalkylark att passa.”",
-      quoteAuthor: "Driftansvarig, digitalbyrå",
+    testimonials: {
+      kicker: "Vad team säger",
+      titleLine1: "De som äger",
+      titleLine2: "förnyelsen,",
+      titleEm: "står bakom oss.",
+      items: [
+        {
+          quote:
+            "Vi hanterar domäner åt 18 kunder. DomainLert ger varje förnyelse en tydlig ägare, utan ännu ett kalkylark att passa.",
+          name: "Sofia Lindqvist",
+          role: "Driftansvarig",
+          agency: "Harbourline Digital",
+        },
+        {
+          quote:
+            "En kunddomän förföll för oss en gång. Aldrig igen — nu når påminnelsen personen som faktiskt kan förnya den, veckor i förväg.",
+          name: "Marcus Bell",
+          role: "Teknisk chef",
+          agency: "Meridian Studio",
+        },
+        {
+          quote:
+            "Det tog tio minuter att komma igång. Vi klistrade in hela portföljen och har äntligen en ärlig bild av vad som går ut när.",
+          name: "Priya Anand",
+          role: "Kundansvarig",
+          agency: "Fieldwork & Co.",
+        },
+      ],
     },
     pricing: {
       kicker: "Gratis i tidig access",

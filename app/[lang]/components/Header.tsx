@@ -128,8 +128,8 @@ export async function Header() {
         </Link>
         <nav className={styles.nav} aria-label={nav.mainNavigation}>
         <Link href={l("/features")}>{nav.product}</Link>
-        <Link href={l("/#solutions")}>{nav.solutions}</Link>
-        <Link href={l("/#resources")}>{nav.resources}</Link>
+        <Link href={l("/#testimonials")}>{nav.solutions}</Link>
+        <Link href={l("/#faq")}>{nav.resources}</Link>
         <Link href={l("/pricing")}>{nav.pricing}</Link>
       </nav>
       <div className={styles.actions}>
@@ -150,8 +150,8 @@ export async function Header() {
           </summary>
           <nav aria-label={nav.mobileNavigation}>
             <Link href={l("/features")}>{nav.product}</Link>
-            <Link href={l("/#solutions")}>{nav.solutions}</Link>
-            <Link href={l("/#resources")}>{nav.resources}</Link>
+            <Link href={l("/#testimonials")}>{nav.solutions}</Link>
+            <Link href={l("/#faq")}>{nav.resources}</Link>
             <Link href={l("/pricing")}>{nav.pricing}</Link>
             {otherTools.map((product, index) => (
               <Link className={styles.mobileToolLink} href="#" key={product.name}>

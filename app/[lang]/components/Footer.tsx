@@ -21,7 +21,7 @@ export async function Footer() {
       </div>
       <div className={styles.links}>
         <Link href={l("/features")}>{footer.links.product}</Link>
-        <Link href={l("/#resources")}>{footer.links.resources}</Link>
+        <Link href={l("/#faq")}>{footer.links.resources}</Link>
         <Link href={l("/pricing")}>{footer.links.pricing}</Link>
         <Link href={l("/about")}>{footer.links.about}</Link>
         <Link href={l("/contact")}>{footer.links.contact}</Link>

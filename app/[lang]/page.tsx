@@ -61,6 +61,13 @@ export default async function Home() {
               </Link>
             </div>
             <p className={styles.note}>{t.hero.note}</p>
+            <ul className={styles.trustBadges}>
+              {t.hero.trustBadges.map((badge) => (
+                <li key={badge}>
+                  <span aria-hidden="true">◆</span> {badge}
+                </li>
+              ))}
+            </ul>
           </div>
           <div className={styles.heroVisual} aria-label={preview.ariaHome}>
             <div className={styles.visualLabel}>
@@ -142,20 +149,29 @@ export default async function Home() {
           </p>
         </section>
 
-        <section className={styles.darkSection} id="solutions">
+        <section className={styles.darkSection} id="testimonials">
           <div className={styles.darkIntro}>
-            <p className={styles.kicker}>{t.dark.kicker}</p>
+            <p className={styles.kicker}>{t.testimonials.kicker}</p>
             <h2>
-              {t.dark.titleLine1}
+              {t.testimonials.titleLine1}
               <br />
-              {t.dark.titleLine2}
+              {t.testimonials.titleLine2}
               <br />
-              <em>{t.dark.titleEm}</em>
+              <em>{t.testimonials.titleEm}</em>
             </h2>
           </div>
-          <div className={styles.quote}>
-            <p>{t.dark.quote}</p>
-            <span>{t.dark.quoteAuthor}</span>
+          <div className={styles.testimonialGrid}>
+            {t.testimonials.items.map((item) => (
+              <figure key={item.agency} className={styles.testimonialCard}>
+                <blockquote>{item.quote}</blockquote>
+                <figcaption>
+                  <strong>{item.name}</strong>
+                  <span>
+                    {item.role}, {item.agency}
+                  </span>
+                </figcaption>
+              </figure>
+            ))}
           </div>
         </section>
 
@@ -187,7 +203,7 @@ export default async function Home() {
           </div>
         </section>
 
-        <section className={styles.faq} id="resources">
+        <section className={styles.faq} id="faq">
           <div>
             <p className={styles.kicker}>{t.faq.kicker}</p>
             <h2>{t.faq.title}</h2>

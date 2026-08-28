@@ -25,9 +25,9 @@ const en = {
       { name: "Task Ledger", description: "Lightweight task tracking" },
       { name: "DNS Lens", description: "DNS health checks" },
     ],
-    product: "Product",
-    solutions: "Solutions",
-    resources: "Resources",
+    product: "Features",
+    solutions: "Testimonials",
+    resources: "FAQs",
     pricing: "Pricing",
     homeAriaLabel: "DomainLert home",
     mainNavigation: "Main navigation",
@@ -99,6 +99,12 @@ const en = {
       text: "Domain renewals are easy to forget and expensive to miss. DomainLert watches your managed domains, checks the dates, and tells the right person while there is still time to act.",
       seeHow: "See how it works",
       note: "Free while we're in early access. No credit card required.",
+      trustBadges: [
+        "EU / Sweden hosted",
+        "GDPR-ready",
+        "Encrypted in transit",
+        "No credit card",
+      ],
     },
     proof: {
       heading: "For people who keep the business running",
@@ -124,14 +130,34 @@ const en = {
       ],
       seeAll: "See all features →",
     },
-    dark: {
-      kicker: "Designed for responsibility",
-      titleLine1: "Because “I thought",
-      titleLine2: "you had it” is not",
-      titleEm: "a process.",
-      quote:
-        "“We manage domains for 18 clients. DomainLert gives every renewal a clear owner, without another spreadsheet to babysit.”",
-      quoteAuthor: "Operations lead, digital agency",
+    testimonials: {
+      kicker: "What teams say",
+      titleLine1: "The people who own",
+      titleLine2: "the renewal,",
+      titleEm: "backing us up.",
+      items: [
+        {
+          quote:
+            "We manage domains for 18 clients. DomainLert gives every renewal a clear owner, without another spreadsheet to babysit.",
+          name: "Sofia Lindqvist",
+          role: "Operations Lead",
+          agency: "Harbourline Digital",
+        },
+        {
+          quote:
+            "A client domain lapsed on us once. Never again — now the alert lands with the person who can actually renew it, weeks ahead.",
+          name: "Marcus Bell",
+          role: "Technical Director",
+          agency: "Meridian Studio",
+        },
+        {
+          quote:
+            "Setup took ten minutes. We pasted in our whole portfolio and finally have one honest view of what's expiring when.",
+          name: "Priya Anand",
+          role: "Account Director",
+          agency: "Fieldwork & Co.",
+        },
+      ],
     },
     pricing: {
       kicker: "Free in early access",

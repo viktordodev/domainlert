@@ -101,6 +101,31 @@
   font-family: var(--font-dm-mono);
   font-size: 10px;
 }
+.trustBadges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 12px;
+  margin-top: 26px;
+  padding: 0;
+  list-style: none;
+}
+.trustBadges li {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 11px;
+  border: 1px solid var(--line);
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-dm-mono);
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.trustBadges li span {
+  color: var(--teal-dark);
+  font-size: 8px;
+}
 .heroVisual {
   position: relative;
   padding-top: 25px;
@@ -288,39 +313,51 @@
 .darkSection {
   padding-top: 125px;
   padding-bottom: 130px;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 100px;
   background: var(--ink);
   color: var(--paper);
 }
-.darkIntro,
-.quote {
-  max-width: 500px;
-  margin-left: auto;
-  margin-right: auto;
-  width: 100%;
+.darkIntro {
+  max-width: 640px;
 }
 .darkSection .kicker {
   color: var(--teal);
 }
-.quote {
-  align-self: end;
-  padding: 25px 0 0;
+.testimonialGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-top: 80px;
+}
+.testimonialCard {
+  display: flex;
+  flex-direction: column;
+  padding: 28px 24px;
+  border-top: 2px solid var(--teal);
+  background: rgba(255, 255, 255, 0.03);
+}
+.testimonialCard blockquote {
+  margin: 0;
+  font-family: var(--font-playfair);
+  font-size: 19px;
+  line-height: 1.32;
+}
+.testimonialCard figcaption {
+  margin-top: 24px;
+  padding-top: 18px;
   border-top: 1px solid #4b4a42;
 }
-.quote p {
-  max-width: 390px;
-  font-family: var(--font-playfair);
-  font-size: 25px;
-  line-height: 1.15;
-}
-.quote span {
+.testimonialCard figcaption strong {
   display: block;
-  margin-top: 24px;
+  font-size: 12px;
+  font-weight: 700;
+}
+.testimonialCard figcaption span {
+  display: block;
+  margin-top: 6px;
   color: #aaa99e;
   font-family: var(--font-dm-mono);
-  font-size: 10px;
+  font-size: 9px;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
 }
 .pricing {
@@ -455,12 +492,13 @@
     margin-top: 65px;
   }
   .darkSection {
-    display: block;
     padding-top: 90px;
     padding-bottom: 90px;
   }
-  .quote {
-    margin-top: 70px;
+  .testimonialGrid {
+    grid-template-columns: 1fr;
+    gap: 18px;
+    margin-top: 50px;
   }
   .pricing,
   .faq {
