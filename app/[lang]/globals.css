@@ -11,6 +11,9 @@
   --teal-dark: #2f6f6b;
   --field: #ffffff;
   --field-placeholder: #a2a29a;
+  --topbar-bg: #1c1d19;
+  --topbar-fg: #9b9c90;
+  --topbar-fg-hover: #f7f5ef;
 }
 
 :root[data-theme="dark"] {
@@ -26,6 +29,9 @@
   --teal-dark: #7fd1c8;
   --field: #1e211a;
   --field-placeholder: #86867a;
+  --topbar-bg: #1f231b;
+  --topbar-fg: #8f9084;
+  --topbar-fg-hover: #ece8dc;
 }
 
 html {

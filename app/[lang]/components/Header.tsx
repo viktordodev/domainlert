@@ -13,6 +13,28 @@ import styles from "./Header.module.css";
 
 type HeaderContext = { dict: Dictionary; locale: Locale };
 
+// Small monogram marks for the sibling products in the top bar. They draw with `currentColor`
+// so they pick up the top bar's link color and its hover brightening for free.
+const TOOL_MARKS = [
+  // Task Ledger — a ruled card with a check
+  <svg key="ledger" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <rect x="2.6" y="1.8" width="10.8" height="12.4" rx="2.4" />
+    <path d="M5.4 5.4h5.2M5.4 7.8h3" />
+    <path d="M5.3 10.4l1.4 1.4 2.7-3" />
+  </svg>,
+  // DNS Lens — a lens over a small network of nodes
+  <svg key="lens" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <circle cx="7" cy="7" r="4.6" />
+    <path d="M10.4 10.4l3 3" />
+    <circle cx="7" cy="7" r="1" fill="currentColor" stroke="none" />
+    <path d="M7 7 5.1 5.4M7 7l2.4-.5M7 7l-.5 2.4" />
+  </svg>,
+];
+
+function ToolMark({ index }: { index: number }) {
+  return <span className={styles.toolMark}>{TOOL_MARKS[index] ?? null}</span>;
+}
+
 function SignedOutActions({ dict, locale }: HeaderContext) {
   return (
     <>
@@ -86,25 +108,25 @@ export async function Header() {
     hints: { light: dict.themeToggle.switchToLight, dark: dict.themeToggle.switchToDark },
   };
 
+  const otherTools = nav.products.slice(1);
+
   return (
-    <header className={styles.header}>
-      <Link className={styles.wordmark} href={l("/")} aria-label={nav.homeAriaLabel}>
-        <Logo animated />
-      </Link>
-      <ClickOutsideDetails className={styles.tools}>
-        <summary>
-          {nav.tools} <span aria-hidden="true">+</span>
-        </summary>
-        <div className={styles.toolMenu}>
-          {nav.products.map((product, index) => (
-            <Link href={index === 0 ? l("/") : "#"} key={product.name}>
-              <strong>{product.name}</strong>
-              <small>{product.description}</small>
+    <>
+      <div className={styles.topBar}>
+        <nav className={styles.topBarInner} aria-label={nav.tools}>
+          {otherTools.map((product, index) => (
+            <Link href="#" key={product.name} title={product.description}>
+              <ToolMark index={index} />
+              {product.name}
             </Link>
           ))}
-        </div>
-      </ClickOutsideDetails>
-      <nav className={styles.nav} aria-label={nav.mainNavigation}>
+        </nav>
+      </div>
+      <header className={styles.header}>
+        <Link className={styles.wordmark} href={l("/")} aria-label={nav.homeAriaLabel}>
+          <Logo animated />
+        </Link>
+        <nav className={styles.nav} aria-label={nav.mainNavigation}>
         <Link href={l("/features")}>{nav.product}</Link>
         <Link href={l("/#solutions")}>{nav.solutions}</Link>
         <Link href={l("/#resources")}>{nav.resources}</Link>
@@ -131,6 +153,12 @@ export async function Header() {
             <Link href={l("/#solutions")}>{nav.solutions}</Link>
             <Link href={l("/#resources")}>{nav.resources}</Link>
             <Link href={l("/pricing")}>{nav.pricing}</Link>
+            {otherTools.map((product, index) => (
+              <Link className={styles.mobileToolLink} href="#" key={product.name}>
+                <ToolMark index={index} />
+                {product.name}
+              </Link>
+            ))}
             <Suspense fallback={<Link href={l("/login")}>{dict.common.logIn}</Link>}>
               <MobileAccountLinks dict={dict} locale={locale} />
             </Suspense>
@@ -138,6 +166,7 @@ export async function Header() {
           </nav>
         </ClickOutsideDetails>
       </div>
-    </header>
+      </header>
+    </>
   );
 }

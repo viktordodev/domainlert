@@ -1,15 +1,13 @@
 .header { width: calc(100% - 64px); max-width: 1120px; margin: 0 auto; padding: 28px 0; display: flex; align-items: center; gap: 26px; position: relative; z-index: 2; }
 .wordmark { color: inherit; }
-.tools { position: relative; }
-.tools summary { list-style: none; cursor: pointer; font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.11em; }
-.tools summary::-webkit-details-marker { display: none; }
-.tools summary span { margin-left: 5px; color: var(--rust); font-size: 16px; }
-.toolMenu { position: absolute; top: 28px; left: -16px; width: 220px; padding: 10px; background: var(--paper); border: 1px solid var(--line); box-shadow: 8px 8px 0 var(--ink); }
-.toolMenu a { display: block; padding: 12px; }
-.toolMenu a:hover { background: var(--cream); }
-.toolMenu strong, .toolMenu small { display: block; }
-.toolMenu strong { font-size: 13px; }
-.toolMenu small { margin-top: 3px; color: var(--muted); font-size: 11px; }
+.topBar { width: 100%; background: var(--topbar-bg); }
+.topBarInner { width: calc(100% - 64px); max-width: 1120px; margin: 0 auto; min-height: 34px; display: flex; align-items: center; gap: 24px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.11em; }
+.topBarInner a { display: inline-flex; align-items: center; gap: 7px; color: var(--topbar-fg); transition: color 0.2s ease; }
+.topBarInner a:hover { color: var(--topbar-fg-hover); }
+.toolMark { display: inline-flex; }
+.toolMark svg { width: 14px; height: 14px; }
+.mobileToolLink { display: flex; align-items: center; gap: 9px; }
+.mobileToolLink svg { width: 16px; height: 16px; }
 .nav { display: flex; align-items: center; gap: 30px; margin-left: 30px; font-size: 12px; font-weight: 700; }
 .nav a:hover, .login:hover { color: var(--rust); }
 .actions { display: flex; align-items: center; gap: 18px; margin-left: auto; font-size: 12px; font-weight: 800; }
@@ -36,5 +34,4 @@
 .mobileMenu > nav > form button { padding: 0; border: 0; background: transparent; color: inherit; cursor: pointer; font: inherit; font-weight: 800; text-align: left; }
 .mobileMenu > nav > nav { padding-top: 18px; border-top: 1px solid var(--line); }
 .mobileHeaderThemeToggle :global(button) { min-height: 36px; padding: 8px 10px; }
-@media (max-width: 900px) { .tools { display: none; } }
-@media (max-width: 760px) { .header { width: 100%; padding: 20px; justify-content: space-between; gap: 14px; } .tools { display: none; } .mobileControls { display: flex; } .mobileMenu { display: block; margin-left: 0; } .nav, .actions { display: none; } .mobileMenu > nav { left: 20px; right: 20px; width: auto; } }
+@media (max-width: 760px) { .header { width: 100%; padding: 20px; justify-content: space-between; gap: 14px; } .topBar { display: none; } .mobileControls { display: flex; } .mobileMenu { display: block; margin-left: 0; } .nav, .actions { display: none; } .mobileMenu > nav { left: 20px; right: 20px; width: auto; } }
