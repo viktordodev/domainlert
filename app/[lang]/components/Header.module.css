@@ -34,4 +34,4 @@
 .mobileMenu > nav > form button { padding: 0; border: 0; background: transparent; color: inherit; cursor: pointer; font: inherit; font-weight: 800; text-align: left; }
 .mobileMenu > nav > nav { padding-top: 18px; border-top: 1px solid var(--line); }
 .mobileHeaderThemeToggle :global(button) { min-height: 36px; padding: 8px 10px; }
-@media (max-width: 760px) { .header { width: 100%; padding: 20px; justify-content: space-between; gap: 14px; } .topBar { display: none; } .mobileControls { display: flex; } .mobileMenu { display: block; margin-left: 0; } .nav, .actions { display: none; } .mobileMenu > nav { left: 20px; right: 20px; width: auto; } }
+@media (max-width: 1024px) { .header { width: 100%; padding: 20px; justify-content: space-between; gap: 14px; } .topBar { display: none; } .mobileControls { display: flex; } .mobileMenu { display: block; margin-left: 0; } .nav, .actions { display: none; } .mobileMenu > nav { left: 20px; right: 20px; width: auto; } }
