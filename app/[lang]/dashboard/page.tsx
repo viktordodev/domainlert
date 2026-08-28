@@ -12,6 +12,7 @@ import {
   updateGlobalAlertThresholds,
 } from "./actions";
 import { DomainList } from "./DomainList";
+import { FlashNotice } from "./FlashNotice";
 import styles from "./dashboard.module.css";
 
 type DashboardPageProps = {
@@ -63,9 +64,11 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
             </p>
             <h1>{t.title}</h1>
             {params.alerts && (
-              <p className={`${styles.notice} ${styles.headingNotice}`} role="status">
-                {params.alerts}
-              </p>
+              <FlashNotice
+                param="alerts"
+                message={params.alerts}
+                className={`${styles.notice} ${styles.headingNotice}`}
+              />
             )}
           </div>
         </div>
@@ -134,9 +137,7 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
           </button>
         </form>
         {params.import && (
-          <p className={styles.notice} role="status">
-            {params.import}
-          </p>
+          <FlashNotice param="import" message={params.import} className={styles.notice} />
         )}
       </section>
       <section className={styles.importSection}>
