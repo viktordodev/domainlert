@@ -28,8 +28,10 @@
 .mobileMenu summary::-webkit-details-marker { display: none; }
 .mobileMenu summary span { display: block; width: 24px; height: 2px; margin: 5px 0; background: var(--ink); }
 .mobileMenu > nav { position: absolute; top: 68px; right: 20px; display: grid; gap: 18px; width: 220px; padding: 22px; background: var(--paper); border: 1px solid var(--line); box-shadow: 7px 7px 0 var(--ink); font-size: 14px; font-weight: 800; }
-.mobileMenu > nav > a, .mobileMenu > nav > form, .mobileMenu > nav > form button { display: block; width: 100%; }
-.mobileMenu > nav > form button { padding: 0; border: 0; background: transparent; color: inherit; cursor: pointer; font: inherit; font-weight: 800; text-align: left; }
-.mobileMenu > nav > nav { padding-top: 18px; border-top: 1px solid var(--line); }
+.mobileMenu > nav > a, .mobileMenu > nav > form, .mobileMenu > nav > form button,
+.mobileMenuAccount > a, .mobileMenuAccount > form, .mobileMenuAccount > form button { display: block; width: 100%; }
+.mobileMenu > nav > form button, .mobileMenuAccount > form button { padding: 0; border: 0; background: transparent; color: inherit; cursor: pointer; font: inherit; font-weight: 800; text-align: left; }
+.mobileMenuAccount { display: grid; gap: 18px; }
+.mobileMenu > nav > .mobileMenuAccount, .mobileMenu > nav > nav { padding-top: 18px; border-top: 1px solid var(--line); }
 .mobileHeaderThemeToggle :global(button) { min-height: 36px; padding: 8px 10px; }
 @media (max-width: 1024px) { .header { width: 100%; padding: 20px; justify-content: space-between; gap: 14px; } .topBar { display: none; } .mobileControls { display: flex; } .mobileMenu { display: block; margin-left: 0; } .nav, .actions { display: none; } .mobileMenu > nav { left: 20px; right: 20px; width: auto; } }

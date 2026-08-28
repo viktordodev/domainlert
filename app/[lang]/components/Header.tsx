@@ -153,9 +153,11 @@ export async function Header() {
             <Link href={l("/#testimonials")}>{nav.solutions}</Link>
             <Link href={l("/#faq")}>{nav.resources}</Link>
             <Link href={l("/pricing")}>{nav.pricing}</Link>
-            <Suspense fallback={<Link href={l("/login")}>{dict.common.logIn}</Link>}>
-              <MobileAccountLinks dict={dict} locale={locale} />
-            </Suspense>
+            <div className={styles.mobileMenuAccount}>
+              <Suspense fallback={<Link href={l("/login")}>{dict.common.logIn}</Link>}>
+                <MobileAccountLinks dict={dict} locale={locale} />
+              </Suspense>
+            </div>
             <LocaleSwitcher names={nav.languageNames} label={nav.language} />
           </nav>
         </ClickOutsideDetails>
