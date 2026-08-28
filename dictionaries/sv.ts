@@ -97,7 +97,7 @@ const sv: Dictionary = {
       seeHow: "Se hur det fungerar",
       note: "Gratis medan vi är i tidig access. Inget kreditkort krävs.",
       trustBadges: [
-        "Drift i Sverige/EU",
+        "Drift i EU",
         "GDPR-redo",
         "Krypterad överföring",
         "Inget kreditkort",

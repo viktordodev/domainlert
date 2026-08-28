@@ -100,7 +100,7 @@ const en = {
       seeHow: "See how it works",
       note: "Free while we're in early access. No credit card required.",
       trustBadges: [
-        "EU / Sweden hosted",
+        "EU hosted",
         "GDPR-ready",
         "Encrypted in transit",
         "No credit card",
