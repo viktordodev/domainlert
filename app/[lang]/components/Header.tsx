@@ -153,12 +153,6 @@ export async function Header() {
             <Link href={l("/#testimonials")}>{nav.solutions}</Link>
             <Link href={l("/#faq")}>{nav.resources}</Link>
             <Link href={l("/pricing")}>{nav.pricing}</Link>
-            {otherTools.map((product, index) => (
-              <Link className={styles.mobileToolLink} href="#" key={product.name}>
-                <ToolMark index={index} />
-                {product.name}
-              </Link>
-            ))}
             <Suspense fallback={<Link href={l("/login")}>{dict.common.logIn}</Link>}>
               <MobileAccountLinks dict={dict} locale={locale} />
             </Suspense>

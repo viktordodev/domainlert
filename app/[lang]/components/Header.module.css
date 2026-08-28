@@ -6,8 +6,6 @@
 .topBarInner a:hover { color: var(--topbar-fg-hover); }
 .toolMark { display: inline-flex; }
 .toolMark svg { width: 14px; height: 14px; }
-.mobileToolLink { display: flex; align-items: center; gap: 9px; }
-.mobileToolLink svg { width: 16px; height: 16px; }
 .nav { display: flex; align-items: center; gap: 30px; margin-left: 30px; font-size: 12px; font-weight: 700; }
 .nav a:hover, .login:hover { color: var(--rust); }
 .actions { display: flex; align-items: center; gap: 18px; margin-left: auto; font-size: 12px; font-weight: 800; }
