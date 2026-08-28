@@ -36,7 +36,7 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
       .order("domain_name"),
     supabase
       .from("profiles")
-      .select("full_name, agency_name, alert_thresholds")
+      .select("full_name, agency_name, alert_thresholds, alert_recipients")
       .eq("id", user.id)
       .maybeSingle(),
   ]);
@@ -48,6 +48,7 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
   const defaultAlertThresholds = profile?.alert_thresholds?.length
     ? profile.alert_thresholds
     : DEFAULT_ALERT_THRESHOLDS;
+  const defaultAlertRecipients = profile?.alert_recipients ?? [];
   const today = new Date()
     .toLocaleDateString(intlLocale(locale), { day: "2-digit", month: "short", year: "numeric" })
     .toUpperCase();
@@ -153,6 +154,15 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
             defaultValue={defaultAlertThresholds.join(", ")}
             placeholder="30, 14, 7"
             required
+          />
+          <label htmlFor="alertRecipients">{t.alerts.recipientsLabel}</label>
+          <span className={styles.fieldHint}>{t.alerts.recipientsText}</span>
+          <input
+            id="alertRecipients"
+            name="alertRecipients"
+            type="text"
+            defaultValue={defaultAlertRecipients.join(", ")}
+            placeholder={t.alerts.recipientsPlaceholder}
           />
           <button type="submit">
             {t.alerts.submit} <span aria-hidden="true">↗</span>

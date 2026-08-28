@@ -742,6 +742,10 @@ const sv: Dictionary = {
       title: "Ange din standard.",
       text: "Antal dagar före utgång då vi ska mejla dig, åtskilda med kommatecken. Varje domän kan åsidosätta detta via sin Påminnelser-knapp ovan.",
       label: "Antal dagar före utgång",
+      recipientsLabel: "Påminnelsemottagare",
+      recipientsText:
+        "E-postadresser som kopieras på varje domäns påminnelser, åtskilda med kommatecken (upp till 3). Lämna tomt för att endast avisera ditt kontos e-postadress. Varje domän kan åsidosätta detta via sin Påminnelser-knapp ovan.",
+      recipientsPlaceholder: "E-postmottagare (upp till 3)",
       submit: "Spara standard",
     },
     logOut: "Logga ut",
@@ -794,7 +798,7 @@ const sv: Dictionary = {
       thresholdsHelp:
         "Lägg till upp till 5 egna trösklar, åtskilda med kommatecken. Lämna tomt för att använda din standard ({defaults}).",
       recipientHint:
-        "Lägg till upp till 3 egna e-postmottagare för den här domänen, åtskilda med kommatecken. Lämna tomt för att avisera din kontos e-postadress.",
+        "Lägg till upp till 3 egna e-postmottagare för den här domänen, åtskilda med kommatecken. Lämna tomt för att använda dina standardmottagare.",
       recipientPlaceholder: "E-postmottagare (upp till 3)",
       thresholdError: "Använd högst 5 egna trösklar.",
       cancel: "Avbryt",
@@ -813,12 +817,13 @@ const sv: Dictionary = {
       removeFailed: "Vi kunde inte ta bort den domänen. Försök igen.",
       removed: "Domänen togs bort.",
       defaultThresholdsFailed:
-        "Vi kunde inte uppdatera dina standardtrösklar för påminnelser. Försök igen.",
-      defaultThresholdsUpdated: "Dina standardtrösklar för påminnelser har uppdaterats.",
+        "Vi kunde inte uppdatera dina standardinställningar för påminnelser. Försök igen.",
+      defaultThresholdsUpdated: "Dina standardinställningar för påminnelser har sparats.",
       thresholdsTooLong: "Håll påminnelsetrösklarna till högst 1 000 tecken.",
       recipientsTooLong: "Håll e-postmottagarna till högst 2 000 tecken.",
       invalidRecipients: "Ange giltiga e-postadresser, åtskilda med kommatecken.",
       tooManyRecipients: "Använd högst 3 e-postadresser per domän.",
+      tooManyDefaultRecipients: "Använd högst 3 standardmottagare för påminnelser.",
       domainAlertsFailed: "Vi kunde inte uppdatera påminnelserna för den domänen. Försök igen.",
       domainUsesDefault: "{name} använder nu dina standardtrösklar för påminnelser.",
       domainCustomSaved: "Egna påminnelsetrösklar sparade för {name}.",

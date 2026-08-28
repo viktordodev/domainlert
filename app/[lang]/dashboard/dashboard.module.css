@@ -411,6 +411,12 @@
   font-size: 12px;
   font-weight: 800;
 }
+.importForm .fieldHint {
+  margin-top: -4px;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.5;
+}
 .importForm textarea {
   min-height: 150px;
   padding: 14px;

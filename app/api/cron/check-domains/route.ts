@@ -64,18 +64,22 @@ async function loadUserEmails(supabase: SupabaseServiceClient): Promise<Map<stri
   return emailByUserId;
 }
 
-type OwnerProfile = { thresholds: number[] | null; ownerName: string | null };
+type OwnerProfile = { thresholds: number[] | null; recipients: string[] | null; ownerName: string | null };
 
 async function loadOwnerProfiles(supabase: SupabaseServiceClient, userIds: string[]): Promise<Map<string, OwnerProfile>> {
   const uniqueIds = [...new Set(userIds)];
   if (uniqueIds.length === 0) return new Map();
 
-  const { data } = await supabase.from("profiles").select("id, alert_thresholds, full_name, agency_name").in("id", uniqueIds);
+  const { data } = await supabase
+    .from("profiles")
+    .select("id, alert_thresholds, alert_recipients, full_name, agency_name")
+    .in("id", uniqueIds);
   const profileByUserId = new Map<string, OwnerProfile>();
 
   for (const profile of data ?? []) {
     profileByUserId.set(profile.id, {
       thresholds: profile.alert_thresholds?.length ? profile.alert_thresholds : null,
+      recipients: profile.alert_recipients?.length ? profile.alert_recipients : null,
       ownerName: profile.agency_name || profile.full_name || null,
     });
   }
@@ -93,7 +97,13 @@ async function sendPendingAlerts(
   const daysRemaining = daysUntil(expiryDate);
   const ownerEmail = emailByUserId.get(domain.user_id) ?? null;
   const ownerProfile = ownerProfilesByUserId.get(domain.user_id);
-  const recipients = domain.alert_recipients?.length ? domain.alert_recipients : ownerEmail ? [ownerEmail] : [];
+  const recipients = domain.alert_recipients?.length
+    ? domain.alert_recipients
+    : ownerProfile?.recipients?.length
+      ? ownerProfile.recipients
+      : ownerEmail
+        ? [ownerEmail]
+        : [];
   const thresholds = domain.alert_thresholds?.length ? domain.alert_thresholds : ownerProfile?.thresholds ?? DEFAULT_ALERT_THRESHOLDS;
 
   if (recipients.length === 0) return;

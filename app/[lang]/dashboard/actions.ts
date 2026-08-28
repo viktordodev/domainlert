@@ -140,6 +140,22 @@ export async function updateGlobalAlertThresholds(formData: FormData) {
     redirectWith(locale, "alerts", thresholdMessage(thresholdError, false, dict.thresholdValidation));
   }
 
+  const recipientValue = formData.get("alertRecipients");
+  const recipientRaw = typeof recipientValue === "string" ? recipientValue.trim() : "";
+  if (recipientRaw.length > 2_000) {
+    redirectWith(locale, "alerts", dict.actions.recipientsTooLong);
+  }
+  const recipientTokens = recipientRaw.length === 0 ? [] : parseRecipients(recipientRaw);
+  const recipients = recipientRaw.length === 0 ? null : recipientTokens;
+
+  if (recipientTokens.some((email) => !isEmail(email))) {
+    redirectWith(locale, "alerts", dict.actions.invalidRecipients);
+  }
+
+  if (recipients !== null && recipients.length > 3) {
+    redirectWith(locale, "alerts", dict.actions.tooManyDefaultRecipients);
+  }
+
   const supabase = createClient(cookieStore);
   const {
     data: { user },
@@ -149,7 +165,9 @@ export async function updateGlobalAlertThresholds(formData: FormData) {
     redirect(localizePath(locale, "/login"));
   }
 
-  const { error } = await supabase.from("profiles").upsert({ id: user.id, alert_thresholds: thresholds });
+  const { error } = await supabase
+    .from("profiles")
+    .upsert({ id: user.id, alert_thresholds: thresholds, alert_recipients: recipients });
 
   if (error) {
     redirectWith(locale, "alerts", dict.actions.defaultThresholdsFailed);

@@ -745,6 +745,10 @@ const en = {
       title: "Set your default.",
       text: "Days before expiry to email you, separated by commas. Each domain can override this from its Alerts button above.",
       label: "Alert days before expiry",
+      recipientsLabel: "Alert recipients",
+      recipientsText:
+        "Email addresses to copy on every domain's alerts, separated by commas (up to 3). Leave blank to alert just your account email. Each domain can override this from its Alerts button above.",
+      recipientsPlaceholder: "Email recipients (up to 3)",
       submit: "Save default",
     },
     logOut: "Log out",
@@ -797,7 +801,7 @@ const en = {
       thresholdsHelp:
         "Add up to 5 custom thresholds, separated by commas. Leave blank to use your default ({defaults}).",
       recipientHint:
-        "Add up to 3 custom email recipients for this domain, separated by commas. Leave blank to alert your account email.",
+        "Add up to 3 custom email recipients for this domain, separated by commas. Leave blank to use your default recipients.",
       recipientPlaceholder: "Email recipients (up to 3)",
       thresholdError: "Use 5 or fewer custom thresholds.",
       cancel: "Cancel",
@@ -816,12 +820,13 @@ const en = {
       removeFailed: "We could not remove that domain. Please try again.",
       removed: "Domain removed.",
       defaultThresholdsFailed:
-        "We could not update your default alert thresholds. Please try again.",
-      defaultThresholdsUpdated: "Your default alert thresholds have been updated.",
+        "We could not update your default alert settings. Please try again.",
+      defaultThresholdsUpdated: "Your default alert settings have been saved.",
       thresholdsTooLong: "Keep alert thresholds to 1,000 characters or fewer.",
       recipientsTooLong: "Keep email recipients to 2,000 characters or fewer.",
       invalidRecipients: "Enter valid email addresses, separated by commas.",
       tooManyRecipients: "Use 3 or fewer email addresses per domain.",
+      tooManyDefaultRecipients: "Use 3 or fewer default alert recipients.",
       domainAlertsFailed: "We could not update alerts for that domain. Please try again.",
       domainUsesDefault: "{name} now uses your default alert thresholds.",
       domainCustomSaved: "Custom alert thresholds saved for {name}.",
